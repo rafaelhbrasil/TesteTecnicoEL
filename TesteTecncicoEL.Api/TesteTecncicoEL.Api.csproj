@@ -4,5 +4,20 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\rafae\source\repos\TesteTecnicoEL\TesteTecncicoEL.Api\TesteTecncicoEL.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TesteTecnicoEL.Dominio\TesteTecnicoEL.Dominio.csproj" />
+    <ProjectReference Include="..\TesteTecnicoEL.Infraestrutura\TesteTecnicoEL.Infraestrutura.csproj" />
+  </ItemGroup>
+
 
 </Project>
