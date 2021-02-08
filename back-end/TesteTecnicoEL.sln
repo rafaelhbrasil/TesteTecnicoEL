@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteTecncicoEL.Api", "TesteTecncicoEL.Api\TesteTecncicoEL.Api.csproj", "{6B004E12-0033-42A0-96A8-2A13361C1868}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteTecnicoEL.Api", "TesteTecncicoEL.Api\TesteTecncicoEL.Api.csproj", "{6B004E12-0033-42A0-96A8-2A13361C1868}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteTecnicoEL.TestesUnitarios", "TesteTecnicoEL.TestesUnitarios\TesteTecnicoEL.TestesUnitarios.csproj", "{CB30887A-D35D-44B7-8504-EC3610986224}"
 EndProject

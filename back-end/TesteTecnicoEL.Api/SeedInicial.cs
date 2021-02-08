@@ -55,8 +55,9 @@ namespace TesteTecncicoEL.Api
             _modeloRepositorio.Inserir(new Modelo("Argo Drive 1.0", 2, Combustivel.Alcool | Combustivel.Gasolina)); // 3
             _modeloRepositorio.Inserir(new Modelo("Cronos 1.4", 2, Combustivel.Alcool | Combustivel.Gasolina)); // 4
 
-            _veiculoRepositorio.InserirCategoria(new Categoria("C", "Econômico com Ar")); // 1
-            _veiculoRepositorio.InserirCategoria(new Categoria("FS", "Intermediário Sedan")); // 2
+            _veiculoRepositorio.InserirCategoria(new Categoria("C", "Básico")); // 1
+            _veiculoRepositorio.InserirCategoria(new Categoria("FS", "Intermediário")); // 2
+            _veiculoRepositorio.InserirCategoria(new Categoria("L", "Luxo")); // 3
 
             _veiculoRepositorio.Inserir(new Veiculo("ABC1111", 1, 2020, 15, 1, 200)); // 1
             _veiculoRepositorio.Inserir(new Veiculo("ABC2222", 2, 2020, 15, 2, 300)); // 2

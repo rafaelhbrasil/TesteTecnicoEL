@@ -126,6 +126,8 @@ namespace TesteTecncicoEL.Api
                 endpoints.MapControllers();
             });
 
+            app.UseStaticFiles();
+
             InicializarDados(app);
         }
 
