@@ -1,0 +1,114 @@
+﻿@model IEnumerable<TesteTecnicoEL.Dominio.Veiculos.Veiculo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var veiculos = Model.OrderBy(m => m.IdCategoria).ThenBy(v => v.Modelo.Marca.Nome).ThenBy(v => v.Modelo.Nome);
+    var veiculosPorCategoria = veiculos.GroupBy(v => v.IdCategoria);
+}
+
+<h1>Veículos por categoria</h1>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<label onclick="alternaSomenteAtivos();">
+    @Html.CheckBox("ver-somente-disponiveis", false, new {  }) Versomente veículos disponíveis
+</label>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    @for (int indice = 0; indice < veiculosPorCategoria.Count(); indice++)
+    {
+        var grupo = veiculosPorCategoria.ElementAt(indice);
+        <li class="nav-item">
+            <a class="nav-link @(indice == 0 ? "active" : string.Empty)" id="aba-categoria-@indice" data-toggle="tab" href="#conteudo-categoria-@indice" role="tab" aria-controls="conteudo-categoria-@indice"
+               aria-selected="@(indice == 0 ? "true" : "false")">
+                @grupo.First().Categoria.Codigo - @grupo.First().Categoria.Nome
+            </a>
+        </li>
+    }
+    @*<li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+            aria-selected="true">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+            aria-selected="false">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+            aria-selected="false">Contact</a>
+        </li>*@
+</ul>
+
+<div class="tab-content" id="myTabContent">
+
+    @for (int indice = 0; indice < veiculosPorCategoria.Count(); indice++)
+    {
+        var grupo = veiculosPorCategoria.ElementAt(indice);
+        <div class="tab-pane fade @(indice == 0 ? "show active" : string.Empty)" id="conteudo-categoria-@indice" role="tabpanel" aria-labelledby="aba-categoria-@indice">
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th>
+                            Placa
+                        </th>
+                        <th>
+                            Modelo
+                        </th>
+                        <th>
+                            Ano
+                        </th>
+                        <th>
+                            Capacidade Porta-malas
+                        </th>
+                        <th>
+                            Valor hora
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in grupo)
+                    {
+                        <tr class="@(item.Disponivel ? "indisponivel" : "indisponivel")">
+                            <td>
+                                @item.Placa
+                            </td>
+                            <td>
+                                @item.Modelo.Marca.Nome @item.Modelo.Nome
+                            </td>
+                            <td>
+                                @item.AnoFabricacao
+                            </td>
+                            <td>
+                                @item.CapacidadePortaMalaLitros
+                            </td>
+                            <td>
+                                @item.ValorHora
+                            </td>
+                            <td>
+                                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                                @if (item.Disponivel)
+                                {
+                                    @Html.ActionLink("Selecionar", "Simular", "Aluguel", new { id=item.Id })
+                                }
+                                else
+                                {
+                                    @Html.Raw("Indisponível")
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>
+
