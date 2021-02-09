@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TesteTecnicoEL.Dominio.Usuarios.Servicos;
+﻿using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 
 namespace TesteTecnicoEL.Dominio.Usuarios
 {
-    public class Operador: Entidade
+    public class Operador : Entidade
     {
         public Operador(string matricula, string nome)
         {
@@ -14,7 +11,7 @@ namespace TesteTecnicoEL.Dominio.Usuarios
 
             if (string.IsNullOrWhiteSpace(Matricula))
                 AdicionarMensagemErro($"{nameof(Matricula)} é de preenchimento obrigatório");
-            else if(Matricula.Length != 6)
+            else if (Matricula.Length != 6)
                 AdicionarMensagemErro($"{nameof(Matricula)} deve ser composta por 6 dígitos");
             if (string.IsNullOrWhiteSpace(Nome))
                 AdicionarMensagemErro($"{nameof(Nome)} é de preenchimento obrigatório");

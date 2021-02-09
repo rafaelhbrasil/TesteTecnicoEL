@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TesteTecnicoEL.Dominio.Usuarios;
+﻿using TesteTecnicoEL.Dominio.Usuarios;
 using Xunit;
 
 namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios

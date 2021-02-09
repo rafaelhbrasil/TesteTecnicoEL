@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Usuarios.ObjetosValor;
 using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
@@ -62,7 +59,10 @@ namespace TesteTecncicoEL.Api
             _veiculoRepositorio.Inserir(new Veiculo("ABC1111", 1, 2020, 15, 1, 200)); // 1
             _veiculoRepositorio.Inserir(new Veiculo("ABC2222", 2, 2020, 15, 2, 300)); // 2
             _veiculoRepositorio.Inserir(new Veiculo("ABC3333", 3, 2020, 15, 1, 200)); // 3
-            _veiculoRepositorio.Inserir(new Veiculo("ABC4444", 4, 2020, 15, 2, 300)); // 4
+            var veiculo4 = new Veiculo("ABC4444", 4, 2020, 15, 2, 300);
+            veiculo4.MarcarComoIndisponivel();
+            _veiculoRepositorio.Inserir(veiculo4); // 4
+
         }
     }
 }

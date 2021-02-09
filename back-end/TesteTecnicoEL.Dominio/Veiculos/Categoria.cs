@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TesteTecnicoEL.Dominio.Veiculos
+﻿namespace TesteTecnicoEL.Dominio.Veiculos
 {
-    public class Categoria: Entidade
+    public class Categoria : Entidade
     {
         public Categoria(string codigo, string nome)
         {

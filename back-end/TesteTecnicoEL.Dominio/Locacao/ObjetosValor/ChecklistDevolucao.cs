@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TesteTecnicoEL.Dominio.Locacao.ObjetosValor
 {
-    public class ChecklistDevolucao: EntidadeValidacao
+    public class ChecklistDevolucao : EntidadeValidacao
     {
         public ChecklistDevolucao(bool carroLimpo,
                                 bool tanqueCheio,

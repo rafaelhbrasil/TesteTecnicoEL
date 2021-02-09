@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TesteTecnicoEL.Dominio.Veiculos
 {
@@ -42,6 +40,7 @@ namespace TesteTecnicoEL.Dominio.Veiculos
         public float ValorHora { get; private set; }
         public long IdCategoria { get; private set; }
         public Categoria Categoria { get; private set; }
+        public bool Disponivel { get; private set; } = true;
 
         public void SetCategoria(Categoria categoria)
         {
@@ -53,6 +52,16 @@ namespace TesteTecnicoEL.Dominio.Veiculos
         {
             Modelo = modelo;
             IdModelo = modelo.Id;
+        }
+
+        public void MarcarComoDisponivel()
+        {
+            Disponivel = true;
+        }
+
+        public void MarcarComoIndisponivel()
+        {
+            Disponivel = false;
         }
     }
 

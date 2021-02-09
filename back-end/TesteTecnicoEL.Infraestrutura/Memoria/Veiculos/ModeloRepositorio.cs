@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;

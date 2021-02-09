@@ -1,15 +1,10 @@
 ﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Locacao;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
 using TesteTecnicoEL.Dominio.Locacao.Servicos;
-using TesteTecnicoEL.Dominio.Usuarios;
-using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
-using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 using Xunit;
@@ -98,7 +93,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
             var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
             var resultado = await servico.RealizarDevolucao(idAluguel, checklist);
             Assert.Equal(aluguel, resultado);
-            Assert.Equal(20*24, resultado.ValorCobradoDevolucao);
+            Assert.Equal(20 * 24, resultado.ValorCobradoDevolucao);
             Assert.Equal(checklist.DataRealizacaoChecklist, aluguel.DataDevolucaoReal);
             _aluguelRepositorio.Verify(m => m.Atualizar(aluguel));
         }
@@ -106,7 +101,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         [Fact]
         public async Task TesteRealizarDevolucao_DadosInvalidos_RetordaErro()
         {
-            var idAluguel  = 4;
+            var idAluguel = 4;
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
                                       DateTime.Today.AddDays(2),
                                       3, 1);

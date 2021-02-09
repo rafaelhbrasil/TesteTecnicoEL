@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TesteTecnicoEL.Dominio.Veiculos
 {
-    public class Modelo: Entidade
+    public class Modelo : Entidade
     {
         public Modelo(string nome, long idMarca, Combustivel combustivel)
         {

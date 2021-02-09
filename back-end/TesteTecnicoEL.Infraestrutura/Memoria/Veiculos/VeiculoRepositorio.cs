@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
@@ -40,6 +39,12 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria.Veiculos
             }
             return Task.CompletedTask;
         }
+
+        public Task<List<Veiculo>> Listar()
+        {
+            return Task.FromResult(Itens);
+        }
+
         public Task<List<Categoria>> ListarCategorias()
         {
             return Task.FromResult(_categorias);

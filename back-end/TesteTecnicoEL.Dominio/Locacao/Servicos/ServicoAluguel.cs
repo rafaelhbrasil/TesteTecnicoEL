@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
@@ -33,14 +31,14 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
         public async Task<Aluguel> RealizarAluguel(Aluguel aluguel)
         {
             aluguel = await SimularAluguel(aluguel);
-
+            aluguel.ConfirmarAluguel();
             await _aluguelRepositorio.Inserir(aluguel);
             return aluguel;
         }
         public async Task<Aluguel> RealizarDevolucao(long idAluguel, ChecklistDevolucao checklistDevolucao)
         {
             var aluguel = await _aluguelRepositorio.ObterPorId(idAluguel);
-            if(aluguel == null || aluguel.DataDevolucaoReal.HasValue)
+            if (aluguel == null || aluguel.DataDevolucaoReal.HasValue)
                 throw new ArgumentException("Dados de aluguel inválidos");
 
             aluguel.RealizarDevolucao(checklistDevolucao);

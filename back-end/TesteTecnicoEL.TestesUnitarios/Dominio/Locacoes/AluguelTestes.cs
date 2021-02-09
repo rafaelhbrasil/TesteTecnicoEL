@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TesteTecnicoEL.Dominio.Locacao;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
-using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Veiculos;
 using Xunit;
 

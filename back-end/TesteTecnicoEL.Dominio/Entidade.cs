@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace TesteTecnicoEL.Dominio
+﻿namespace TesteTecnicoEL.Dominio
 {
-    public abstract class Entidade: EntidadeValidacao
+    public abstract class Entidade : EntidadeValidacao
     {
         public long Id { get; set; }
 

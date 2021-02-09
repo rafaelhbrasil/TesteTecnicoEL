@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
-using TesteTecnicoEL.Dominio.Usuarios;
-using TesteTecnicoEL.Dominio.Usuarios.ObjetosValor;
-using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
-using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 

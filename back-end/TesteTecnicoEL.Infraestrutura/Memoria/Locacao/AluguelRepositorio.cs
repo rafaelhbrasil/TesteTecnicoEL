@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Locacao;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
-using TesteTecnicoEL.Dominio.Usuarios;
-using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
-using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
 namespace TesteTecnicoEL.Infraestrutura.Memoria.Locacao
@@ -42,7 +38,7 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria.Locacao
 
         public Task<Aluguel> ObterPorVeiculo(long idVeiculo)
         {
-            return Task.FromResult(Itens.FirstOrDefault(a => a.IdVeiculo == idVeiculo));
+            return Task.FromResult(Itens.LastOrDefault(a => a.IdVeiculo == idVeiculo));
         }
 
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Usuarios.ObjetosValor;
 using Xunit;

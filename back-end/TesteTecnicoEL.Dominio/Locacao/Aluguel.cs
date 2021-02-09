@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Veiculos;
 
@@ -26,8 +24,6 @@ namespace TesteTecnicoEL.Dominio.Locacao
 
             if (IdVeiculo <= 0)
                 AdicionarMensagemErro($"{nameof(IdVeiculo)} é de preenchimento obrigatório");
-            if (IdUsuario <= 0)
-                AdicionarMensagemErro($"{nameof(IdUsuario)} é de preenchimento obrigatório");
         }
 
         public DateTime DataInicio { get; private set; }
@@ -55,6 +51,15 @@ namespace TesteTecnicoEL.Dominio.Locacao
                 quantidadeProblemas++;
             ValorCobradoDevolucao = ValorAluguel + (ValorAluguel * quantidadeProblemas * 0.3f);
             DataDevolucaoReal = checklist.DataRealizacaoChecklist;
+
+            Veiculo.MarcarComoDisponivel();
+        }
+
+        internal void ConfirmarAluguel()
+        {
+            if (IdUsuario <= 0)
+                throw new InvalidOperationException("Nenhum usuário informado");
+            Veiculo.MarcarComoIndisponivel();
         }
 
         public void SetVeiculo(Veiculo veiculo)
@@ -68,5 +73,7 @@ namespace TesteTecnicoEL.Dominio.Locacao
             var horas = (int)Math.Ceiling((DataDevolucaoPrevista - DataInicio).TotalHours);
             ValorAluguel = horas * Veiculo.ValorHora;
         }
+
+
     }
 }

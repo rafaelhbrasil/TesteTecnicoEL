@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TesteTecnicoEL.Dominio.Veiculos
+﻿namespace TesteTecnicoEL.Dominio.Veiculos
 {
-    public class Marca: Entidade
+    public class Marca : Entidade
     {
         public Marca(string nome)
         {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TesteTecnicoEL.Dominio.Usuarios.ObjetosValor
+﻿namespace TesteTecnicoEL.Dominio.Usuarios.ObjetosValor
 {
-    public class Endereco: EntidadeValidacao
+    public class Endereco : EntidadeValidacao
     {
         public Endereco(string logradouro, int? numero, string complemento, string cidade, string estado)
         {

@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
-using TesteTecnicoEL.Dominio.Usuarios;
-using TesteTecnicoEL.Dominio.Usuarios.ObjetosValor;
-using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
-using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
@@ -24,6 +17,15 @@ namespace TesteTecncicoEL.Api.Controllers
             this._veiculoRepositorio = veiculoRepositorio;
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult<Veiculo>> ListarTodos()
+        {
+            var marca = await _veiculoRepositorio.Listar();
+            if (marca == null)
+                return NotFound();
+            return Ok(marca);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Veiculo>> ObterPorId(long id)
@@ -60,7 +62,7 @@ namespace TesteTecncicoEL.Api.Controllers
         }
 
         [HttpGet("categorias")]
-        public async Task<ActionResult<Modelo>> ListarPorCategoria()
+        public async Task<ActionResult<Modelo>> ListarCategorias()
         {
             var veiculos = await _veiculoRepositorio.ListarCategorias();
             return Ok(veiculos);

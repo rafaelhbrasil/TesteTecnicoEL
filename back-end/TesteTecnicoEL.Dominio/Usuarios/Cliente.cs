@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TesteTecnicoEL.Dominio.Usuarios.ObjetosValor;
 using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 
 namespace TesteTecnicoEL.Dominio.Usuarios
 {
-    public class Cliente: Entidade
+    public class Cliente : Entidade
     {
         public Cliente(string nome, string cPF, DateTime nascimento, Endereco endereco)
         {
@@ -23,7 +21,7 @@ namespace TesteTecnicoEL.Dominio.Usuarios
                 AdicionarMensagemErro($"{nameof(CPF)} é inválido");
             if (Nascimento == default)
                 AdicionarMensagemErro($"{nameof(Nascimento)} é de preenchimento obrigatório");
-            else if(Nascimento > DateTime.Today)
+            else if (Nascimento > DateTime.Today)
                 AdicionarMensagemErro($"{nameof(Nascimento)} não pode ser data futura");
             if (Endereco == null)
                 AdicionarMensagemErro($"{nameof(Endereco)} é de preenchimento obrigatório");

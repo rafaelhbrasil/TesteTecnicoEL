@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TesteTecnicoEL.Dominio.Usuarios;
-using TesteTecnicoEL.Dominio.Veiculos;
+﻿using TesteTecnicoEL.Dominio.Veiculos;
 using Xunit;
 
 namespace TesteTecnicoEL.TestesUnitarios.Dominio.Veiculos

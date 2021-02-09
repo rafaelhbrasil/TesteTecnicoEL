@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
         {
             nomeUsuario = nomeUsuario?.Trim();
             if (string.IsNullOrEmpty(nomeUsuario) || string.IsNullOrEmpty(senha)) return null;
-            if(nomeUsuario.Length == 11)
+            if (nomeUsuario.Length == 11)
             {
                 var cliente = await _clienteRepositorio.ObterPorCpf(nomeUsuario);
                 if (cliente != null && cliente.Senha == CalcularSHA256(senha))
