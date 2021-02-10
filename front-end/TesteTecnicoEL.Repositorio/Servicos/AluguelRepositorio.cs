@@ -18,9 +18,9 @@ namespace TesteTecnicoEL.AcessoDados
             this._httpRequest = httpRequest;
         }
 
-        public Task<List<Aluguel>> ListarHistoricoPorCliente(long idCliente)
+        public Task<List<Aluguel>> ListarHistoricoDoCliente()
         {
-            return _httpRequest.GetAsync<List<Aluguel>>($"alugueis/usuario/{idCliente}");
+            return _httpRequest.GetAsync<List<Aluguel>>($"alugueis/usuario");
         }
 
         public Task<Aluguel> RealizarDevolucao(long id, ParametrosLocacaoDto parametrosLocacao)
@@ -33,9 +33,9 @@ namespace TesteTecnicoEL.AcessoDados
             return _httpRequest.PostAsync<Aluguel>($"alugueis", parametrosLocacao);
         }
 
-        public async Task<Aluguel> Simular(ParametrosLocacaoDto parametrosLocacao)
+        public Task<Aluguel> Simular(ParametrosLocacaoDto parametrosLocacao)
         {
-            return await _httpRequest.PostAsync<Aluguel>($"alugueis/simular", parametrosLocacao);
+            return _httpRequest.PostAsync<Aluguel>($"alugueis/simular", parametrosLocacao);
         }
     }
 }

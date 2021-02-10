@@ -45,5 +45,18 @@ namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
             byte[] buffer = Encoding.Default.GetBytes(text + _salt);
             return BitConverter.ToString(_cryptoTransformSHA256.ComputeHash(buffer)).Replace("-", "");
         }
+
+        public async Task<object> ObterPorChave(string chave)
+        {
+            var cliente = await _clienteRepositorio.ObterPorChave(chave);
+            if (cliente != null)
+                return cliente;
+
+            var operador = await _operadorRepositorio.ObterPorChave(chave);
+            if (operador != null)
+                return operador;
+
+            return null;
+        }
     }
 }

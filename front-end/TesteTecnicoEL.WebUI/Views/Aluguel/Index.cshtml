@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TesteTecnicoEL.Dominio.Locacao.Aluguel>
+
+@using System.Globalization;
+
+@{
+    ViewData["Title"] = "Meu Histórico";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                DataInicio
+            </th>
+            <th>
+                Data Devolucao Prevista
+            </th>
+            <th>
+                Veículo
+            </th>
+            <th>
+                Valor Aluguel
+            </th>
+            <th>
+                Data Devolução Real
+            </th>
+            <th>
+                Valor Cobrado na Devolução
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DataInicio.ToString("dd/MM/yyyy HH:mm")
+                </td>
+                <td>
+                    @item.DataDevolucaoPrevista.ToString("dd/MM/yyyy HH:mm")
+                </td>
+                <td>
+                    @item.Veiculo.Modelo.Marca.Nome @item.Veiculo.Modelo.Nome @item.Veiculo.AnoFabricacao - Placa @item.Veiculo.Placa
+                </td>
+                <td>
+                    @item.ValorAluguel.ToString("C", new CultureInfo("pt-BR").NumberFormat)
+                </td>
+                <td>
+                    @item.DataDevolucaoReal?.ToString("dd/MM/yyyy HH:mm")
+                </td>
+                <td>
+                    @item.ValorCobradoDevolucao?.ToString("C", new CultureInfo("pt-BR").NumberFormat)
+                </td>
+                <td>
+                    <a href="#" onclick="alert('Funcionalidade não implementada por não estar prevista no enunciado da prova.'); return false;">Realizar Devolução</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

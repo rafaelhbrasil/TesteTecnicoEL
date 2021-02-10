@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Dominio.Veiculos;
@@ -10,11 +11,13 @@ namespace TesteTecncicoEL.Api.Controllers
     [Route("[controller]")]
     public class VeiculosController : ControllerBase
     {
+        private readonly UserIdentity _usuarioAutenticado;
         private readonly IVeiculoRepositorio _veiculoRepositorio;
 
-        public VeiculosController(IVeiculoRepositorio veiculoRepositorio)
+        public VeiculosController(UserIdentity usuario, IVeiculoRepositorio veiculoRepositorio)
         {
-            this._veiculoRepositorio = veiculoRepositorio;
+            _usuarioAutenticado = usuario;
+            _veiculoRepositorio = veiculoRepositorio;
         }
 
 
@@ -39,6 +42,8 @@ namespace TesteTecncicoEL.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Criar(VeiculoDto veiculoDto)
         {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
             var veiculo = new Veiculo(veiculoDto.Placa,
                                       veiculoDto.IdModelo,
                                       veiculoDto.AnoFabricacao,
@@ -48,7 +53,7 @@ namespace TesteTecncicoEL.Api.Controllers
             if (veiculo.EhValido())
             {
                 await _veiculoRepositorio.Inserir(veiculo);
-                return Created(Url.Action($"{nameof(ObterPorId)}", new { id = veiculo.Id }), null);
+                return Created(Url.Action(nameof(ObterPorId), new { id = veiculo.Id }), null);
             }
             else
                 return BadRequest(veiculo.Mensagens);

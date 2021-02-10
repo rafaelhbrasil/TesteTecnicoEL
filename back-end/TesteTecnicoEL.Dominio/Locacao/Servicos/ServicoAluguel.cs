@@ -17,12 +17,10 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
             _veiculoRepositorio = veiculoRepositorio;
         }
 
-        public async Task<Aluguel> SimularAluguel(Aluguel aluguel)
+        public async Task<Simulacao> SimularAluguel(Simulacao aluguel)
         {
             var veiculo = await _veiculoRepositorio.ObterPorId(aluguel.IdVeiculo);
-            if (!aluguel.EhValido() || veiculo == null)
-                throw new ArgumentException("Dados de aluguel inválidos");
-
+            aluguel.ValidarELancarErroSeInvalido();
             aluguel.SetVeiculo(veiculo);
             aluguel.CalcularValorPrevistoAluguel();
             return aluguel;
@@ -30,7 +28,7 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
 
         public async Task<Aluguel> RealizarAluguel(Aluguel aluguel)
         {
-            aluguel = await SimularAluguel(aluguel);
+            aluguel = await SimularAluguel(aluguel) as Aluguel;
             aluguel.ConfirmarAluguel();
             await _aluguelRepositorio.Inserir(aluguel);
             return aluguel;
@@ -39,7 +37,10 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
         {
             var aluguel = await _aluguelRepositorio.ObterPorId(idAluguel);
             if (aluguel == null || aluguel.DataDevolucaoReal.HasValue)
-                throw new ArgumentException("Dados de aluguel inválidos");
+            {
+                aluguel.AdicionarMensagemErro("Veículo já havia sido devolvido e está disponível.");
+                aluguel.ValidarELancarErroSeInvalido();
+            }
 
             aluguel.RealizarDevolucao(checklistDevolucao);
             await _aluguelRepositorio.Atualizar(aluguel);

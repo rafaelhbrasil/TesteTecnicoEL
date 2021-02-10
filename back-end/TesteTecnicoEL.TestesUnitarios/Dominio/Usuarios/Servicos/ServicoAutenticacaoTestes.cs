@@ -44,5 +44,33 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios.Servicos
             var obj = await servico.Autenticar(operador.Matricula, "123");
             Assert.Equal(operador, obj);
         }
+
+        [Fact]
+        public async Task TesteObterPorChave_Cliente_RetornaCliente()
+        {
+            var cliente = new Cliente(null, null, default, default);
+            _clienteRepositorio.Setup(m => m.ObterPorChave("chave1"))
+                               .ReturnsAsync(cliente);
+            var servico = new ServicoAutenticacao(_clienteRepositorio.Object,
+                                                  _operadorRepositorio.Object);
+            var obj = await servico.ObterPorChave("chave1");
+            Assert.Equal(cliente, obj);
+            _operadorRepositorio.Verify(m => m.ObterPorChave(It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task TesteObterPorChave_Operador_RetornaOperador()
+        {
+            var operador = new Operador(null, null);
+            _clienteRepositorio.Setup(m => m.ObterPorChave("chave2"))
+                               .ReturnsAsync(null as Cliente);
+            _operadorRepositorio.Setup(m => m.ObterPorChave("chave2"))
+                               .ReturnsAsync(operador);
+            var servico = new ServicoAutenticacao(_clienteRepositorio.Object,
+                                                  _operadorRepositorio.Object);
+            var obj = await servico.ObterPorChave("chave2");
+            Assert.Equal(operador, obj);
+            _clienteRepositorio.Verify(m => m.ObterPorChave(It.IsAny<string>()));
+        }
     }
 }

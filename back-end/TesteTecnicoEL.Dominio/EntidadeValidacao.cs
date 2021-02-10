@@ -11,7 +11,13 @@ namespace TesteTecnicoEL.Dominio
         public IReadOnlyList<string> Mensagens { get { return _mensagens; } }
         public bool EhValido() => !Mensagens.Any();
 
-        protected void AdicionarMensagemErro(string mensagem) => _mensagens.Add(mensagem);
-        protected void LimparMensagensErro() => _mensagens.Clear();
+        public void AdicionarMensagemErro(string mensagem) => _mensagens.Add(mensagem);
+        public void LimparMensagensErro() => _mensagens.Clear();
+
+        public void ValidarELancarErroSeInvalido()
+        {
+            if (!EhValido())
+                throw new ValidacaoException(Mensagens);
+        }
     }
 }

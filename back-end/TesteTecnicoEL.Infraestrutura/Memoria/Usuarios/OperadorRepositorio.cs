@@ -11,5 +11,10 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria.Usuarios
         {
             return Task.FromResult(Itens.FirstOrDefault(o => o.Matricula == matricula));
         }
+
+        public Task<Operador> ObterPorChave(string chave)
+        {
+            return Task.FromResult(Itens.FirstOrDefault(c => c.ChaveAutenticacao == chave));
+        }
     }
 }

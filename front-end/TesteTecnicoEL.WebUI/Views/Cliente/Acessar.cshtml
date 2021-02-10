@@ -1,29 +1,29 @@
 ﻿@model TesteTecncicoEL.Api.Models.ClienteDto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Acesso";
 }
 
-<h1>Cadastro</h1>
+<h1>@ViewData["Title"]</h1>
 
 @*<h4>ClienteDto</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Acessar">
-            @if (ViewBag.Erro != null)
-            {
-                <div class="text-danger">
-                    @if(ViewBag.Erro[0] == "UnauthorizedAccessException")
+            <div class="text-danger">
+                @if (ViewBag.Erro != null)
+                {
+                    @if (ViewBag.Erro[0] == "UnauthorizedAccessException")
                     {
-                        Html.Raw("Usuário ou senha inválidos.");
+                        @Html.Raw("Usuário ou senha inválidos.");
                     }
                     else
                     {
-                        @string.Join("<br />", ViewBag.Erro as string[]);
+                        @Html.Raw(string.Join("<br />", ViewBag.Erro as string[]));
                     }
-                </div>
-            }
+                }
+            </div>
             <div class="form-group">
                 <label asp-for="CPF" class="control-label"></label>
                 <input asp-for="CPF" class="form-control" />

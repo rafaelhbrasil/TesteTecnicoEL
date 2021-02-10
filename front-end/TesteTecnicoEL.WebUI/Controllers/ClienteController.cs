@@ -40,21 +40,6 @@ namespace TesteTecnicoEL.WebUI.Controllers
             return View();
         }
 
-        // POST: UsuarioController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Criar(ClienteDto cliente)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult Acessar()
         {
             return View();
@@ -83,10 +68,30 @@ namespace TesteTecnicoEL.WebUI.Controllers
             }
             catch(UnauthorizedAccessException ex)
             {
-                ViewBag.Erro = new[] { "UnauthorizedAccessException" };
+                ViewBag.Erro = new[] { nameof(UnauthorizedAccessException) };
             }
             catch
             {
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Criar(ClienteDto cliente)
+        {
+            try
+            {
+                var usuario = await _usuarioRepositorio.CadastrarCliente(cliente);
+                if (usuario != null)
+                {
+                    await SalvarCookieDeAutenticacao(usuario);
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+            }
+            catch (ValidacaoException ex)
+            {
+                ViewBag.Erro = ex.Mensagens;
             }
             return View();
         }

@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,8 +56,9 @@ namespace TesteTecnicoEL.WebUI
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<IVeiculoRepositorio, VeiculoRepositorio>();
 
-            services.AddSingleton<IHttpRequest>(new HttpRequestBase(AppSettings.Instance.CaminhoBaseApi));
+            services.AddScoped<IHttpRequest, HttpRequestBase>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton(AppSettings.Instance);
 
         }
 

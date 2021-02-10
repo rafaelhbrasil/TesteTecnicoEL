@@ -9,3 +9,7 @@ function alternaSomenteAtivos(checkbox) {
     else
         $(".indisponivel").show();
 }
+
+function CarregarSelecaoVeiculo(id) {
+    window.location.href = URL_VEICULO_SELECIONADO;
+}

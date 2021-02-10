@@ -3,21 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TesteTecnicoEL.AcessoDados.DTOs;
+using TesteTecnicoEL.Dominio;
+using TesteTecnicoEL.Dominio.Usuarios;
 
 namespace TesteTecnicoEL.AcessoDados
 {
     public class HttpRequestBase: IHttpRequest
     {
         private readonly HttpClient _httpClient;
+        private readonly Cliente _cliente;
 
-        public HttpRequestBase(string baseAddress)
+        public HttpRequestBase(AppSettings settings, Cliente cliente)
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri(baseAddress);
+            _httpClient.BaseAddress = new Uri(settings.CaminhoBaseApi);
             _httpClient.Timeout = TimeSpan.FromSeconds(20);
+            
+            _cliente = cliente;
+            if(_cliente != null)
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _cliente.ChaveAutenticacao);
         }
 
         public async Task<TOut> PostAsync<TOut>(string relativePath, object objToPost)
@@ -30,7 +38,7 @@ namespace TesteTecnicoEL.AcessoDados
 
         public async Task PostAsync(string relativePath, object objToPost)
         {
-            await PostAsync(relativePath, objToPost);
+            await PostAsync<object>(relativePath, objToPost);
         }
 
         public async Task<T> PutAsync<T>(string relativePath, object objToPost = null)

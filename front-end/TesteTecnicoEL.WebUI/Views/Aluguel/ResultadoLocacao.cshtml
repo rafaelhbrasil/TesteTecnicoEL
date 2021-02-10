@@ -1,0 +1,37 @@
+﻿@model TesteTecnicoEL.Dominio.Locacao.Aluguel
+
+@using TesteTecnicoEL.Dominio.Veiculos
+@using TesteTecncicoEL.Api.Models 
+
+@{
+    ViewData["Title"] = "Aluguel confirmado";
+}
+
+@{
+    var veiculo = Model.Veiculo as Veiculo;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@*<h4>ParametrosLocacaoDto</h4>*@
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form >
+            <partial name="_CamposDadosAluguel" model="Model" />
+            @Html.Hidden(nameof(Model.IdVeiculo), veiculo.Id.ToString())
+            @Html.Hidden(nameof(ParametrosLocacaoDto.DataFim), Model.DataDevolucaoPrevista)
+            <div class="form-group">
+                Você receberá um e-mail com mais instruções. (fake)
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

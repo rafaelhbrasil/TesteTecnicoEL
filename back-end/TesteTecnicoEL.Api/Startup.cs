@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,8 +9,12 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
+using TesteTecncicoEL.Api.FiltrosDeRequisicao;
+using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
 using TesteTecnicoEL.Dominio.Locacao.Servicos;
+using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
 using TesteTecnicoEL.Dominio.Usuarios.Servicos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
@@ -34,11 +39,12 @@ namespace TesteTecncicoEL.Api
             InicializarDependencias(services);
 
             services.AddControllers();
-            //services.AddMvc((options) =>
-            //{
-            //    options.Filters.Add<AuthRequestFilter>();
-            //    options.Filters.Add<ResponseHandlerFilter>();
-            //});
+            services.AddMvc((options) =>
+            {
+                options.Filters.Add<FiltroRotaAutenticada>();
+                options.Filters.Add<FiltroResposta>();
+            });
+            //services.AddAuthentication("Bearer");
 
             services.AddSwaggerGen(c =>
             {
@@ -61,21 +67,14 @@ namespace TesteTecncicoEL.Api
 
         }
 
-
         private void InicializarDependencias(IServiceCollection services)
         {
-            //Configuration.Bind("AppSettings", AppSettings.Instance);
-            //services.AddSingleton(AppSettings.Instance);
-
-            //var connection = Configuration.GetConnectionString(nameof(DatabaseContext));
-            //services.AddDbContext<DatabaseContext>(options => options.UseMySql(connection));
-            //services.AddScoped<DbContext, DatabaseContext>();
-
-            //services.AddScoped<User>((sp) => {
-            //    var user = new User();
-            //    sp.GetService<IHttpContextAccessor>().HttpContext?.User.AddIdentity(new UserIdentity(user));
-            //    return user;
-            //});
+            services.AddScoped<UserIdentity>((sp) =>
+            {
+                var userIdentity = new UserIdentity();
+                sp.GetService<IHttpContextAccessor>().HttpContext?.User.AddIdentity(userIdentity);
+                return userIdentity;
+            });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -87,6 +86,7 @@ namespace TesteTecncicoEL.Api
             services.AddScoped<IAluguelRepositorio, AluguelRepositorio>();
 
             services.AddScoped<ServicoAutenticacao>();
+            services.AddScoped<ServicoCadastro>();
             services.AddScoped<ServicoAluguel>();
 
             // seed inicial para adicionar algo no repositório em memória

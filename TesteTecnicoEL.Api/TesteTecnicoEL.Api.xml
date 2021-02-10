@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TesteTecnicoEL.Api</name>
+    </assembly>
+    <members>
+        <member name="P:TesteTecncicoEL.Api.Models.EnderecoDto.Numero">
+            <summary>
+            Nulo para S/N (sem número)
+            </summary>
+        </member>
+        <member name="M:TesteTecncicoEL.Api.SeedInicial.Inicializar">
+            <summary>
+            Inicializa dados para simular um banco já existente com dados simulados
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -52,7 +52,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes
             aluguel.RealizarDevolucao(checklist);
 
             Assert.Equal(480, aluguel.ValorAluguel);
-            Assert.Equal(480 * 2.2, aluguel.ValorCobradoDevolucao);
+            Assert.Equal(480 * 2.2, aluguel.ValorCobradoDevolucao.Value);
             Assert.Equal(aluguel.DataDevolucaoReal, checklist.DataRealizacaoChecklist);
         }
     }

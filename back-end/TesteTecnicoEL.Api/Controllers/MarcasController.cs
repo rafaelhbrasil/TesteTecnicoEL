@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.FiltrosDeRequisicao;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
@@ -34,13 +35,14 @@ namespace TesteTecncicoEL.Api.Controllers
         }
 
         [HttpPost]
+        [RotaAutenticada]
         public async Task<ActionResult> Criar(MarcaDto marcaDto)
         {
             var marca = new Marca(marcaDto.Nome);
             if (marca.EhValido())
             {
                 await _marcaRepositorio.Inserir(marca);
-                return Created(Url.Action($"{nameof(ObterPorId)}", new { id = marca.Id }), null);
+                return Created(Url.Action(nameof(ObterPorId), new { id = marca.Id }), null);
             }
             else
                 return BadRequest(marca.Mensagens);

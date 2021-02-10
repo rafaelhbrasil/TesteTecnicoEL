@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System;
 using System.Threading.Tasks;
+using TesteTecnicoEL.Dominio;
 using TesteTecnicoEL.Dominio.Locacao;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
@@ -43,7 +44,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
                                       DateTime.Today.AddDays(2),
                                       0, 0);
             var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            await Assert.ThrowsAsync<ValidacaoException>(async () =>
             {
                 var resultado = await servico.SimularAluguel(aluguel);
             });
@@ -71,7 +72,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
                                       DateTime.Today.AddDays(2),
                                       0, 0);
             var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            await Assert.ThrowsAsync<ValidacaoException>(async () =>
             {
                 var resultado = await servico.RealizarAluguel(aluguel);
             });
@@ -112,7 +113,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
             _aluguelRepositorio.Setup(m => m.ObterPorId(idAluguel))
                                .ReturnsAsync(aluguel);
             var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            await Assert.ThrowsAsync<ValidacaoException>(async () =>
             {
                 var resultado = await servico.RealizarDevolucao(idAluguel, checklist);
             });

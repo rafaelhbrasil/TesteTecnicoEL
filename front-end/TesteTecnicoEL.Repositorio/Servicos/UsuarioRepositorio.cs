@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -28,9 +27,11 @@ namespace TesteTecnicoEL.AcessoDados
             return JsonConvert.DeserializeObject<Operador>(usuarioJson.ToString());
         }
 
-        public Task<Cliente> CadastrarCliente(ClienteDto cliente)
+        public async Task<Cliente> CadastrarCliente(ClienteDto cliente)
         {
-            return _httpRequest.PostAsync<Cliente>($"Clientes", cliente);
+            await _httpRequest.PostAsync($"Clientes", cliente);
+            var novoCliente = (await Autenticar(cliente.CPF, cliente.Senha));
+            return novoCliente as Cliente;
         }
     }
 }

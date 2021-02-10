@@ -12,6 +12,6 @@ namespace TesteTecnicoEL.AcessoDados
         Task<Aluguel> Simular(ParametrosLocacaoDto parametrosLocacao);
         Task<Aluguel> RealizarLocacao(ParametrosLocacaoDto parametrosLocacao);
         Task<Aluguel> RealizarDevolucao(long id, ParametrosLocacaoDto parametrosLocacao);
-        Task<List<Aluguel>> ListarHistoricoPorCliente(long idCliente);
+        Task<List<Aluguel>> ListarHistoricoDoCliente();
     }
 }

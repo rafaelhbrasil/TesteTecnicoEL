@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.FiltrosDeRequisicao;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
@@ -28,6 +29,7 @@ namespace TesteTecncicoEL.Api.Controllers
         }
 
         [HttpPost]
+        [RotaAutenticada]
         public async Task<ActionResult> Criar(ModeloDto modeloDto)
         {
             var modelo = new Modelo(modeloDto.Nome,
@@ -36,7 +38,7 @@ namespace TesteTecncicoEL.Api.Controllers
             if (modelo.EhValido())
             {
                 await _modeloRepositorio.Inserir(modelo);
-                return Created(Url.Action($"{nameof(ObterPorId)}", new { id = modelo.Id }), null);
+                return Created(Url.Action(nameof(ObterPorId), new { id = modelo.Id }), null);
             }
             else
                 return BadRequest(modelo.Mensagens);

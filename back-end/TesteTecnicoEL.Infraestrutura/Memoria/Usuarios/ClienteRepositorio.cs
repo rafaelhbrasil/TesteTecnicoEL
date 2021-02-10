@@ -15,5 +15,10 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria.Usuarios
         {
             return Task.FromResult(Itens.FirstOrDefault(c => c.CPF == cpf));
         }
+
+        public Task<Cliente> ObterPorChave(string chave)
+        {
+            return Task.FromResult(Itens.FirstOrDefault(c => c.ChaveAutenticacao == chave));
+        }
     }
 }

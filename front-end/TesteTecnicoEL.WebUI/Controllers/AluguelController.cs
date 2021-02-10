@@ -21,20 +21,22 @@ namespace TesteTecnicoEL.WebUI.Controllers
             this._veiculoRepositorio = veiculoRepositorio;
             this._aluguelRepositorio = aluguelRepositorio;
         }
-        // GET: AluguelController
-        public ActionResult Index()
+        
+        [Authorize]
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var historico = await _aluguelRepositorio.ListarHistoricoDoCliente();
+            return View(historico);
         }
 
         // GET: AluguelController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(long id)
         {
             return View();
         }
 
         // GET: AluguelController/Create
-        public async Task<ActionResult> Simular(int id)
+        public async Task<ActionResult> Simular(long id)
         {
             ViewBag.Veiculo = await _veiculoRepositorio.ObterPorId(id);
             return View();
@@ -42,14 +44,15 @@ namespace TesteTecnicoEL.WebUI.Controllers
 
         // POST: AluguelController/Create
         [HttpPost]
+        [ActionName("Simular")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Simular(ParametrosLocacaoDto parametrosLocacao)
+        public async Task<ActionResult> RealizarSimulacao(ParametrosLocacaoDto parametrosLocacao)
         {
             
             try
             {
                 var resultadoSimulacao = await _aluguelRepositorio.Simular(parametrosLocacao);
-                return View(nameof(Resultado), resultadoSimulacao);
+                return View("ResultadoSimulacao", resultadoSimulacao);
             }
             catch(ValidacaoException ex)
             {
@@ -60,7 +63,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
         }
 
         // GET: AluguelController/Edit/5
-        public ActionResult Resultado(int id)
+        public ActionResult Resultado(long id)
         {
             return View();
         }
@@ -68,25 +71,28 @@ namespace TesteTecnicoEL.WebUI.Controllers
         // POST: AluguelController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<ActionResult> Confirmacao(ParametrosLocacaoDto parametrosLocacao)
+        public async Task<ActionResult> Confirmar(ParametrosLocacaoDto parametrosLocacao)
         {
             try
             {
+                if(ClienteAutenticado == null)
+                {
+                    ViewBag.Erro = new[] { nameof(UnauthorizedAccessException) };
+                    return await RealizarSimulacao(parametrosLocacao);
+                }
                 parametrosLocacao.IdUsuario = ClienteAutenticado.Id;
-                var resultadoSimulacao = await _aluguelRepositorio.RealizarLocacao(parametrosLocacao);
-                return View(nameof(Resultado), resultadoSimulacao);
+                var resultadoLocacao = await _aluguelRepositorio.RealizarLocacao(parametrosLocacao);
+                return View("ResultadoLocacao", resultadoLocacao);
             }
             catch (ValidacaoException ex)
             {
                 ViewBag.Erro = ex.Mensagens;
-                ViewBag.Veiculo = await _veiculoRepositorio.ObterPorId(parametrosLocacao.IdVeiculo);
-                return View(parametrosLocacao);
+                return await RealizarSimulacao(parametrosLocacao);
             }
         }
 
         // GET: AluguelController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(long id)
         {
             return View();
         }
@@ -94,7 +100,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
         // POST: AluguelController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(long id, IFormCollection collection)
         {
             try
             {

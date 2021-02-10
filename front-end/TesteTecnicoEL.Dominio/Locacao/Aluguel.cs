@@ -12,7 +12,7 @@ namespace TesteTecnicoEL.Dominio.Locacao
         public Veiculo Veiculo { get; set; }
         public long IdUsuario { get; set; }
         public float ValorAluguel { get; set; }
-        public float ValorCobradoDevolucao { get; set; }
+        public float? ValorCobradoDevolucao { get; set; }
 
         public ChecklistDevolucao ChecklistDevolucao { get; set; }
     }

@@ -74,7 +74,7 @@
                 <tbody>
                     @foreach (var item in grupo)
                     {
-                        <tr class="@(item.Disponivel ? "indisponivel" : "indisponivel")">
+                        <tr class="@(item.Disponivel ? string.Empty: "indisponivel")">
                             <td>
                                 @item.Placa
                             </td>
