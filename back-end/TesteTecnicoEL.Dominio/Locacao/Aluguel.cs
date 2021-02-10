@@ -6,7 +6,7 @@ namespace TesteTecnicoEL.Dominio.Locacao
 {
     public class Aluguel : Simulacao
     {
-        public Aluguel(DateTime dataInicio, DateTime dataDevolucaoPrevista, long idVeiculo, long idUsuario):
+        public Aluguel(DateTime dataInicio, DateTime dataDevolucaoPrevista, long idVeiculo, long idUsuario) :
                     base(dataInicio, dataDevolucaoPrevista, idVeiculo)
         {
             IdUsuario = idUsuario;

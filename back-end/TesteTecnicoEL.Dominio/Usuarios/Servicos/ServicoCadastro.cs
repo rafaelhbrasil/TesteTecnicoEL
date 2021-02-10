@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
 
 namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
@@ -20,7 +18,7 @@ namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
         public async Task Cadastrar(Cliente cliente)
         {
             var clienteExistente = await _clienteRepositorio.ObterPorCpf(cliente.CPF);
-            if(clienteExistente != null)
+            if (clienteExistente != null)
             {
                 cliente.AdicionarMensagemErro("CPF já em uso por outro cliente");
                 cliente.ValidarELancarErroSeInvalido();

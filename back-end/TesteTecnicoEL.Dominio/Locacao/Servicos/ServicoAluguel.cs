@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Locacao.Repositorios;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;

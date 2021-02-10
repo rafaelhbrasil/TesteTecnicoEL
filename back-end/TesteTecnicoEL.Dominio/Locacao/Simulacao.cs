@@ -1,5 +1,4 @@
 ﻿using System;
-using TesteTecnicoEL.Dominio.Locacao.ObjetosValor;
 using TesteTecnicoEL.Dominio.Veiculos;
 
 namespace TesteTecnicoEL.Dominio.Locacao

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Api.FiltrosDeRequisicao;
 using TesteTecnicoEL.Dominio.Usuarios;

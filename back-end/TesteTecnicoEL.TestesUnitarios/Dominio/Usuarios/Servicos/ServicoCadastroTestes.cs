@@ -1,10 +1,10 @@
 ﻿using Moq;
 using System;
 using System.Threading.Tasks;
+using TesteTecnicoEL.Dominio;
 using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
 using TesteTecnicoEL.Dominio.Usuarios.Servicos;
-using TesteTecnicoEL.Dominio;
 using Xunit;
 
 namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios.Servicos

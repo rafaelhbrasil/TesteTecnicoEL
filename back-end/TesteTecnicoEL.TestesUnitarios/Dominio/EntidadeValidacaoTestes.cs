@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TesteTecnicoEL.Dominio;
+﻿using TesteTecnicoEL.Dominio;
 using Xunit;
 
 namespace TesteTecnicoEL.TestesUnitarios.Dominio
@@ -30,7 +27,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio
         {
             var obj = new Concreta();
             obj.ValidarELancarErroSeInvalido();
-            
+
             obj.AdicionarMensagemErro("teste");
             Assert.Throws<ValidacaoException>(() =>
                 obj.ValidarELancarErroSeInvalido()
@@ -45,7 +42,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio
             obj.ValidarELancarErroSeInvalido();
         }
 
-        private class Concreta: EntidadeValidacao
+        private class Concreta : EntidadeValidacao
         {
         }
     }

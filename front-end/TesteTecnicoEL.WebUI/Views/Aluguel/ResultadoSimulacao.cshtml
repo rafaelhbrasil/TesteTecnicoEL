@@ -1,0 +1,38 @@
+﻿@model TesteTecnicoEL.Dominio.Locacao.Aluguel
+
+@using TesteTecnicoEL.Dominio.Veiculos
+@using TesteTecncicoEL.Api.Models
+
+@{
+    ViewData["Title"] = "Resultado da Simulação";
+}
+
+@{
+    var veiculo = Model.Veiculo as Veiculo;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@*<h4>ParametrosLocacaoDto</h4>*@
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Confirmar">
+            <partial name="_CamposDadosAluguel" model="Model" />
+            @Html.Hidden(nameof(Model.IdVeiculo), veiculo.Id.ToString())
+            @Html.Hidden(nameof(ParametrosLocacaoDto.DataFim), Model.DataDevolucaoPrevista)
+            <div class="form-group">
+                <input type="submit" value="Confirma reserva?" class="btn btn-primary" />
+                <input type="submit" value="Voltar" class="btn btn-primary" onclick="CarregarSelecaoVeiculo(@veiculo.Id); return false;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
@@ -25,7 +26,17 @@ namespace TesteTecncicoEL.Api.Controllers
             _servicoCadastro = servicoCadastro;
         }
 
-
+        /// <summary>
+        /// Obtém os detalhes de um cliente
+        /// </summary>
+        /// <param name="id">O ID do cliente</param>
+        /// <returns>Os detalhes do cliente caso seja encontrado</returns>
+        /// <response code="200">Cliente encontrado e retornado com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="404">Cliente não encontrado</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = null)]
         [HttpGet("{id}")]
         [RotaAutenticada]
         public async Task<ActionResult<Cliente>> ObterPorId(long id)
@@ -38,6 +49,15 @@ namespace TesteTecncicoEL.Api.Controllers
             return Ok(usuario);
         }
 
+        /// <summary>
+        /// Cria um novo cliente.
+        /// </summary>
+        /// <param name="clienteDto">Os dados do novo modelo a ser criado</param>
+        /// <returns></returns>
+        /// <response code="201">O cliente foi criado com sucesso</response>
+        /// <response code="400">Dados inválidos. O cliente não será salvo.</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
         [HttpPost]
         public async Task<ActionResult> Criar(ClienteDto clienteDto)
         {
