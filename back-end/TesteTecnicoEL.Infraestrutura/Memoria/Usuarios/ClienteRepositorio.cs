@@ -20,5 +20,18 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria.Usuarios
         {
             return Task.FromResult(Itens.FirstOrDefault(c => c.ChaveAutenticacao == chave));
         }
+
+        public override Task Alterar(Cliente obj)
+        {
+            var indiceParaAlterar = Itens.FindIndex(i => i.Id == obj.Id);
+            if (indiceParaAlterar >= 0)
+            {
+                var itemRemovido = Itens[indiceParaAlterar];
+                obj.SetSenhaEChaveCifradas(itemRemovido.Senha, itemRemovido.ChaveAutenticacao);
+                Itens.RemoveAt(indiceParaAlterar);
+                Itens.Insert(indiceParaAlterar, obj);
+            }
+            return Task.CompletedTask;
+        }
     }
 }

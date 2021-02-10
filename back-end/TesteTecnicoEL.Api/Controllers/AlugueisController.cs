@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Api.FiltrosDeRequisicao;
@@ -127,6 +128,36 @@ namespace TesteTecncicoEL.Api.Controllers
             checklist.ValidarELancarErroSeInvalido();
             var aluguel = await _servicoAluguel.RealizarDevolucao(id, checklist);
             return Ok(aluguel);
+        }
+
+        /// <summary>
+        /// Altera os dados de um aluguel. Somente um operador pode alterar aluguéis.
+        /// </summary>
+        /// <param name="id">O ID do aluguel a ser alterado</param>
+        /// <param name="aluguelDto">Os novos dados do aluguel</param>
+        /// <returns></returns>
+        /// <response code="204">O aluguel foi alterado com sucesso</response>
+        /// <response code="400">Dados inválidos. O aluguel não será salvo.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar aluguéis</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, ParametrosLocacaoDto aluguelDto)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var aluguel = new Aluguel(aluguelDto.DataInicio,
+                                      aluguelDto.DataFim,
+                                      aluguelDto.IdVeiculo,
+                                      aluguelDto.IdUsuario);
+            aluguel.ValidarELancarErroSeInvalido();
+            aluguel.SetId(id);
+            await _servicoAluguel.AtualizarDados(aluguel);
+            return NoContent();
         }
 
     }

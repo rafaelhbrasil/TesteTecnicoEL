@@ -22,5 +22,22 @@ namespace TesteTecnicoEL.Infraestrutura.Memoria
             }
             return Task.CompletedTask;
         }
+
+        public virtual Task Alterar(T obj)
+        {
+            var indiceParaAlterar = Itens.FindIndex(i => i.Id == obj.Id);
+            if (indiceParaAlterar >= 0)
+            {
+                Itens.RemoveAt(indiceParaAlterar);
+                Itens.Insert(indiceParaAlterar, obj);
+            }
+            return Task.CompletedTask;
+        }
+
+        public virtual Task Excluir(long id)
+        {
+            Itens.RemoveAll(i => i.Id == id);
+            return Task.CompletedTask;
+        }
     }
 }

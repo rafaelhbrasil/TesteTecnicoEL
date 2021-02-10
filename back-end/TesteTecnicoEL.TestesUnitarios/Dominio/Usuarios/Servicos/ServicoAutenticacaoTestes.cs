@@ -22,7 +22,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios.Servicos
         [Fact]
         public async Task TesteAutenticar_Cpf_RetornaCliente()
         {
-            var cliente = new Cliente("nome", "00000000001", new DateTime(2000, 1, 1), null);
+            var cliente = new Cliente("nome", "10000000001", new DateTime(2000, 1, 1), null);
             cliente.SetSenha("123");
             _clienteRepositorio.Setup(m => m.ObterPorCpf(cliente.CPF))
                                .ReturnsAsync(cliente);
@@ -35,8 +35,9 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios.Servicos
         [Fact]
         public async Task TesteAutenticar_matricula_RetornaOperador()
         {
-            var operador = new Operador("000001", "nome");
+            var operador = new Operador("100001", "nome");
             operador.SetSenha("123");
+            //operador.SetSenha("123");
             _operadorRepositorio.Setup(m => m.ObterPorMatricula(operador.Matricula))
                                 .ReturnsAsync(operador);
             var servico = new ServicoAutenticacao(_clienteRepositorio.Object,

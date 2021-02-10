@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.FiltrosDeRequisicao;
 using TesteTecnicoEL.Dominio.Veiculos;
 using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
@@ -71,6 +72,7 @@ namespace TesteTecncicoEL.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
         [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
         [HttpPost]
+        [RotaAutenticada]
         public async Task<ActionResult> Criar(VeiculoDto veiculoDto)
         {
             if (!_usuarioAutenticado.EhOperador)
@@ -81,13 +83,9 @@ namespace TesteTecncicoEL.Api.Controllers
                                       veiculoDto.ValorHora,
                                       veiculoDto.IdCategoria,
                                       veiculoDto.CapacidadePortaMalaLitros);
-            if (veiculo.EhValido())
-            {
-                await _veiculoRepositorio.Inserir(veiculo);
-                return Created(Url.Action(nameof(ObterPorId), new { id = veiculo.Id }), null);
-            }
-            else
-                return BadRequest(veiculo.Mensagens);
+            veiculo.ValidarELancarErroSeInvalido();
+            await _veiculoRepositorio.Inserir(veiculo);
+            return Created(Url.Action(nameof(ObterPorId), new { id = veiculo.Id }), null);
         }
 
         /// <summary>
@@ -129,6 +127,59 @@ namespace TesteTecncicoEL.Api.Controllers
         {
             var veiculos = await _veiculoRepositorio.ListarPorCategoria(id);
             return Ok(veiculos);
+        }
+
+        /// <summary>
+        /// Altera os dados de um veículo. Somente um operador pode alterar veículos.
+        /// </summary>
+        /// <param name="id">O ID do veículo a ser alterado</param>
+        /// <param name="operadorDto">Os novos dados do veículo</param>
+        /// <returns></returns>
+        /// <response code="204">O veículo foi alterado com sucesso</response>
+        /// <response code="400">Dados inválidos. O veículo não será salvo.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, VeiculoDto veiculoDto)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var veiculo = new Veiculo(veiculoDto.Placa,
+                                      veiculoDto.IdModelo,
+                                      veiculoDto.AnoFabricacao,
+                                      veiculoDto.ValorHora,
+                                      veiculoDto.IdCategoria,
+                                      veiculoDto.CapacidadePortaMalaLitros);
+            veiculo.ValidarELancarErroSeInvalido();
+            veiculo.SetId(id);
+            await _veiculoRepositorio.Alterar(veiculo);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Exclui um veículo. Somente um operador pode excluir veículos.
+        /// </summary>
+        /// <param name="id">O ID do veículo a ser excluído</param>
+        /// <returns></returns>
+        /// <response code="204">O veículo foi excluído com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para excluir veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpDelete("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Excluir(long id)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            await _veiculoRepositorio.Excluir(id);
+            return NoContent();
         }
     }
 }

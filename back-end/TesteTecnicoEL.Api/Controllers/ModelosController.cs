@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Api.FiltrosDeRequisicao;
@@ -13,10 +14,12 @@ namespace TesteTecncicoEL.Api.Controllers
     public class ModelosController : ControllerBase
     {
         private readonly IModeloRepositorio _modeloRepositorio;
+        private readonly UserIdentity _usuarioAutenticado;
 
-        public ModelosController(IModeloRepositorio modeloRepositorio)
+        public ModelosController(UserIdentity usuario, IModeloRepositorio modeloRepositorio)
         {
-            this._modeloRepositorio = modeloRepositorio;
+            _modeloRepositorio = modeloRepositorio;
+            _usuarioAutenticado = usuario;
         }
 
         /// <summary>
@@ -54,16 +57,14 @@ namespace TesteTecncicoEL.Api.Controllers
         [RotaAutenticada]
         public async Task<ActionResult> Criar(ModeloDto modeloDto)
         {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
             var modelo = new Modelo(modeloDto.Nome,
                                     modeloDto.IdMarca,
                                     modeloDto.Combustivel);
-            if (modelo.EhValido())
-            {
-                await _modeloRepositorio.Inserir(modelo);
-                return Created(Url.Action(nameof(ObterPorId), new { id = modelo.Id }), null);
-            }
-            else
-                return BadRequest(modelo.Mensagens);
+            modelo.ValidarELancarErroSeInvalido();
+            await _modeloRepositorio.Inserir(modelo);
+            return Created(Url.Action(nameof(ObterPorId), new { id = modelo.Id }), null);
         }
 
         /// <summary>
@@ -78,6 +79,56 @@ namespace TesteTecncicoEL.Api.Controllers
         {
             var marcas = await _modeloRepositorio.ListarPorMarca(id);
             return Ok(marcas);
+        }
+
+        /// <summary>
+        /// Altera os dados de um modelo de veículo. Somente um operador pode alterar modelos.
+        /// </summary>
+        /// <param name="id">O ID do modelo a ser alterado</param>
+        /// <param name="modeloDto">Os novos dados do modelo</param>
+        /// <returns></returns>
+        /// <response code="204">O modelo foi alterado com sucesso</response>
+        /// <response code="400">Dados inválidos. O modelo não será salvo.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar modelos de veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, ModeloDto modeloDto)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var modelo = new Modelo(modeloDto.Nome,
+                                    modeloDto.IdMarca,
+                                    modeloDto.Combustivel);
+            modelo.ValidarELancarErroSeInvalido();
+            modelo.SetId(id);
+            await _modeloRepositorio.Alterar(modelo);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Exclui um modelo de veículo. Somente um operador pode excluir modelos.
+        /// </summary>
+        /// <param name="id">O ID do modelo a ser excluído</param>
+        /// <returns></returns>
+        /// <response code="204">O modelo foi excluído com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para excluir modelos de veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpDelete("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Excluir(long id)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            await _modeloRepositorio.Excluir(id);
+            return NoContent();
         }
     }
 }

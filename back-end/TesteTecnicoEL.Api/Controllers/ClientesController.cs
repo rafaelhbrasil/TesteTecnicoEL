@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Api.FiltrosDeRequisicao;
@@ -78,6 +79,65 @@ namespace TesteTecncicoEL.Api.Controllers
             }
             else
                 return BadRequest(cliente.Mensagens.Concat(endereco.Mensagens));
+        }
+
+        /// <summary>
+        /// Altera os dados de um cliente. Somente um operador pode alterar clientes. Um cliente pode alterar seus próprios dados.
+        /// </summary>
+        /// <param name="id">O ID do cliente a ser alterado</param>
+        /// <param name="clienteDto">Os novos dados do cliente</param>
+        /// <returns></returns>
+        /// <response code="204">O cliente foi alterado com sucesso</response>
+        /// <response code="400">Dados inválidos. O cliente não será salvo.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar este cliente</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, ClienteDto clienteDto)
+        {
+            if (!_usuarioAutenticado.EhOperador && _usuarioAutenticado.Cliente.Id != id)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var endereco = new Endereco(clienteDto.Endereco.Logradouro,
+                                        clienteDto.Endereco.Numero,
+                                        clienteDto.Endereco.Complemento,
+                                        clienteDto.Endereco.Cidade,
+                                        clienteDto.Endereco.Estado);
+            var cliente = new Cliente(clienteDto.Nome,
+                                      clienteDto.CPF,
+                                      clienteDto.Nascimento,
+                                      endereco);
+            cliente.SetId(id);
+            if (cliente.EhValido())
+            {
+                await _clienteRepositorio.Alterar(cliente);
+                return NoContent();
+            }
+            return BadRequest(cliente.Mensagens.Concat(endereco.Mensagens));
+        }
+
+        /// <summary>
+        /// Exclui um cliente. Somente um operador pode excluir clientes.
+        /// </summary>
+        /// <param name="id">O ID do cliente a ser excluído</param>
+        /// <returns></returns>
+        /// <response code="204">O cliente foi excluído com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para excluir clientes</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpDelete("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Excluir(long id)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            await _clienteRepositorio.Excluir(id);
+            return NoContent();
         }
     }
 }

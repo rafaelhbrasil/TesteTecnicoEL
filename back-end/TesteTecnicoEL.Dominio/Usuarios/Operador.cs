@@ -31,5 +31,11 @@ namespace TesteTecnicoEL.Dominio.Usuarios
             Senha = ServicoAutenticacao.CalcularSHA256(senha);
             ChaveAutenticacao = ServicoAutenticacao.CalcularSHA256(Matricula + Senha);
         }
+
+        public void SetSenhaEChaveCifradas(string senhaCifrada, string chaveCifrada)
+        {
+            Senha = senhaCifrada;
+            ChaveAutenticacao = chaveCifrada;
+        }
     }
 }

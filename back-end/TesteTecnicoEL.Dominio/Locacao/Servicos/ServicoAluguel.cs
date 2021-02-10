@@ -45,5 +45,26 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
             await _aluguelRepositorio.Atualizar(aluguel);
             return aluguel;
         }
+
+        public async Task AtualizarDados(Aluguel aluguel)
+        {
+            var aluguelBd = await _aluguelRepositorio.ObterPorId(aluguel.Id);
+            if (aluguelBd == null)
+            {
+                aluguel.AdicionarMensagemErro("Aluguel não encontrado.");
+                aluguel.ValidarELancarErroSeInvalido();
+            }
+            else if (aluguelBd.ChecklistDevolucao != null || aluguel.ChecklistDevolucao != null)
+            {
+                aluguel.AdicionarMensagemErro("Não é permitido alterar um aluguel encerrado.");
+                aluguel.ValidarELancarErroSeInvalido();
+            }
+            else
+            {
+                aluguel = await SimularAluguel(aluguel) as Aluguel;
+                aluguel.ConfirmarAluguel();
+                await _aluguelRepositorio.Atualizar(aluguel);
+            }
+        }
     }
 }

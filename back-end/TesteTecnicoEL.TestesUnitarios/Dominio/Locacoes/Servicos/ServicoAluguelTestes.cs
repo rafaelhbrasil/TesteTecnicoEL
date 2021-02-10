@@ -24,7 +24,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteSimular_DadosPreenchidos_RetordaResultado()
+        public async Task TesteSimular_DadosPreenchidos_RetornaResultado()
         {
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
                                       DateTime.Today.AddDays(2),
@@ -38,7 +38,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteSimular_DadosInvalidos_RetordaErro()
+        public async Task TesteSimular_DadosInvalidos_RetornaErro()
         {
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
                                       DateTime.Today.AddDays(2),
@@ -51,7 +51,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteRealizarAluguel_DadosPreenchidos_RetordaResultado()
+        public async Task TesteRealizarAluguel_DadosPreenchidos_RetornaResultado()
         {
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
                                       DateTime.Today.AddDays(2),
@@ -66,7 +66,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteRealizarAluguel_DadosInvalidos_RetordaErro()
+        public async Task TesteRealizarAluguel_DadosInvalidos_RetornaErro()
         {
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
                                       DateTime.Today.AddDays(2),
@@ -80,7 +80,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteRealizarDevolucao_DadosPreenchidos_RetordaResultado()
+        public async Task TesteRealizarDevolucao_DadosPreenchidos_RetornaResultado()
         {
             var idAluguel = 3;
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
@@ -100,7 +100,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
         }
 
         [Fact]
-        public async Task TesteRealizarDevolucao_DadosInvalidos_RetordaErro()
+        public async Task TesteRealizarDevolucao_DadosInvalidos_RetornaErro()
         {
             var idAluguel = 4;
             var aluguel = new Aluguel(DateTime.Today.AddDays(1),
@@ -118,6 +118,63 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Locacoes.Servicos
                 var resultado = await servico.RealizarDevolucao(idAluguel, checklist);
             });
             _aluguelRepositorio.Verify(m => m.Inserir(aluguel), Times.Never);
+        }
+
+        [Fact]
+        public async Task TesteAtualizarDados_DadosPreenchidos_RetornaResultado()
+        {
+            var idAluguel = 5;
+            var aluguel = new Aluguel(DateTime.Today.AddDays(1),
+                                      DateTime.Today.AddDays(2),
+                                      5, 1);
+            aluguel.SetId(idAluguel);
+            var veiculo = new Veiculo("", 0, 0, 0, 0, 0);
+            _aluguelRepositorio.Setup(m => m.ObterPorId(idAluguel))
+                                .ReturnsAsync(aluguel);
+            _veiculoRepositorio.Setup(m => m.ObterPorId(aluguel.IdVeiculo))
+                                .ReturnsAsync(veiculo);
+            var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
+            await servico.AtualizarDados(aluguel);
+            _aluguelRepositorio.Verify(m => m.Atualizar(aluguel));
+        }
+
+        [Fact]
+        public async Task TesteAtualizarDados_AluguelInexistente_RetornaErro()
+        {
+            var idAluguel = 6;
+            var aluguel = new Aluguel(DateTime.Today.AddDays(1),
+                                      DateTime.Today.AddDays(2),
+                                      6, 1);
+            aluguel.SetId(idAluguel);
+            _aluguelRepositorio.Setup(m => m.ObterPorId(idAluguel))
+                                .ReturnsAsync(null as Aluguel);
+            var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
+            await Assert.ThrowsAsync<ValidacaoException>(async () =>
+            {
+                await servico.AtualizarDados(aluguel);
+            });
+            _aluguelRepositorio.Verify(m => m.Atualizar(aluguel), Times.Never);
+        }
+
+        [Fact]
+        public async Task TesteAtualizarDados_AluguelJaEncerrado_RetornaErro()
+        {
+            var idAluguel = 7;
+            var aluguel = new Aluguel(DateTime.Today.AddDays(1),
+                                      DateTime.Today.AddDays(2),
+                                      7, 1);
+            var veiculo = new Veiculo("", 0, 0, 0, 0, 0);
+            aluguel.SetId(idAluguel);
+            aluguel.SetVeiculo(veiculo);
+            aluguel.RealizarDevolucao(new ChecklistDevolucao(true, true, true, true, DateTime.Now));
+            _aluguelRepositorio.Setup(m => m.ObterPorId(idAluguel))
+                                .ReturnsAsync(null as Aluguel);
+            var servico = new ServicoAluguel(_aluguelRepositorio.Object, _veiculoRepositorio.Object);
+            await Assert.ThrowsAsync<ValidacaoException>(async () =>
+            {
+                await servico.AtualizarDados(aluguel);
+            });
+            _aluguelRepositorio.Verify(m => m.Atualizar(aluguel), Times.Never);
         }
     }
 }

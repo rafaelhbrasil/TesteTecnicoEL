@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.Api.FiltrosDeRequisicao;
@@ -13,10 +14,12 @@ namespace TesteTecncicoEL.Api.Controllers
     public class MarcasController : ControllerBase
     {
         private readonly IMarcaRepositorio _marcaRepositorio;
+        private readonly UserIdentity _usuarioAutenticado;
 
-        public MarcasController(IMarcaRepositorio marcaRepositorio)
+        public MarcasController(UserIdentity usuario, IMarcaRepositorio marcaRepositorio)
         {
-            this._marcaRepositorio = marcaRepositorio;
+            _marcaRepositorio = marcaRepositorio;
+            _usuarioAutenticado = usuario;
         }
 
         /// <summary>
@@ -67,14 +70,60 @@ namespace TesteTecncicoEL.Api.Controllers
         [RotaAutenticada]
         public async Task<ActionResult> Criar(MarcaDto marcaDto)
         {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
             var marca = new Marca(marcaDto.Nome);
-            if (marca.EhValido())
-            {
-                await _marcaRepositorio.Inserir(marca);
-                return Created(Url.Action(nameof(ObterPorId), new { id = marca.Id }), null);
-            }
-            else
-                return BadRequest(marca.Mensagens);
+            marca.ValidarELancarErroSeInvalido();
+            await _marcaRepositorio.Inserir(marca);
+            return Created(Url.Action(nameof(ObterPorId), new { id = marca.Id }), null);
+        }
+
+        /// <summary>
+        /// Altera os dados de uma marca de veículo. Somente um operador pode alterar marcas.
+        /// </summary>
+        /// <param name="id">O ID da marca a ser alterada</param>
+        /// <param name="marcaDto">Os novos dados da marca</param>
+        /// <returns></returns>
+        /// <response code="204">A marca foi alterada com sucesso</response>
+        /// <response code="400">Dados inválidos. A marca não será salva.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar marcas de veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, MarcaDto marcaDto)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var marca = new Marca(marcaDto.Nome);
+            marca.ValidarELancarErroSeInvalido();
+            marca.SetId(id);
+            await _marcaRepositorio.Alterar(marca);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Exclui uma marca de veículo. Somente um operador pode excluir marcas.
+        /// </summary>
+        /// <param name="id">O ID da marca a ser excluída</param>
+        /// <returns></returns>
+        /// <response code="204">O modelo foi excluído com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para excluir modelos de veículos</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpDelete("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Excluir(long id)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            await _marcaRepositorio.Excluir(id);
+            return NoContent();
         }
     }
 }

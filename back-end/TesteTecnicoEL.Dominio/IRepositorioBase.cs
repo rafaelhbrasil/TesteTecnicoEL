@@ -6,5 +6,7 @@ namespace TesteTecnicoEL.Dominio
     {
         Task<T> ObterPorId(long id);
         Task Inserir(T obj);
+        Task Alterar(T obj);
+        Task Excluir(long id);
     }
 }

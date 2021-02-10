@@ -71,14 +71,59 @@ namespace TesteTecncicoEL.Api.Controllers
                 return StatusCode((int)HttpStatusCode.Forbidden);
             var operador = new Operador(operadorDto.Matricula,
                                       operadorDto.Nome);
-            if (operador.EhValido())
-            {
-                operador.SetSenha(operadorDto.Senha);
-                await _servicoCadastro.Cadastrar(operador);
-                return Created(Url.Action(nameof(ObterPorId), new { id = operador.Id }), null);
-            }
-            else
-                return BadRequest(operador.Mensagens);
+            operador.ValidarELancarErroSeInvalido();
+            operador.SetSenha(operadorDto.Senha);
+            await _servicoCadastro.Cadastrar(operador);
+            return Created(Url.Action(nameof(ObterPorId), new { id = operador.Id }), null);
+        }
+
+        /// <summary>
+        /// Altera os dados de um operador. Somente um operador pode alterar operadores.
+        /// </summary>
+        /// <param name="id">O ID do operador a ser alterado</param>
+        /// <param name="operadorDto">Os novos dados do operador</param>
+        /// <returns></returns>
+        /// <response code="204">O operador foi alterado com sucesso</response>
+        /// <response code="400">Dados inválidos. O operador não será salvo.</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para alterar operadores</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpPut("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Alterar(long id, OperadorDto operadorDto)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            var operador = new Operador(operadorDto.Matricula,
+                                      operadorDto.Nome);
+            operador.ValidarELancarErroSeInvalido();
+            operador.SetId(id);
+            await _operadorRepositorio.Alterar(operador);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Exclui um operador. Somente um operador pode excluir operadores.
+        /// </summary>
+        /// <param name="id">O ID do operador a ser excluído</param>
+        /// <returns></returns>
+        /// <response code="204">O operador foi excluído com sucesso</response>
+        /// <response code="401">Você precisa se autenticar para acessar essa funcionalidade</response>
+        /// <response code="403">Você não tem permissão para excluir operadores</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = null)]
+        [HttpDelete("{id}")]
+        [RotaAutenticada]
+        public async Task<ActionResult> Excluir(long id)
+        {
+            if (!_usuarioAutenticado.EhOperador)
+                return StatusCode((int)HttpStatusCode.Forbidden);
+            await _operadorRepositorio.Excluir(id);
+            return NoContent();
         }
     }
 }

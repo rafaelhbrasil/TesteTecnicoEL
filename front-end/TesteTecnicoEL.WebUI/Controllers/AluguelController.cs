@@ -26,7 +26,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
         public async Task<ActionResult> Index()
         {
             var historico = await _aluguelRepositorio.ListarHistoricoDoCliente();
-            return View(historico);
+            return View(historico.OrderBy(a => a.DataInicio));
         }
 
         // GET: AluguelController/Details/5
