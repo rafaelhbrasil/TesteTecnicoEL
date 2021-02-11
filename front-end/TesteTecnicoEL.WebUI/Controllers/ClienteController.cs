@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
 using TesteTecnicoEL.AcessoDados;
@@ -66,7 +64,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
             {
                 ViewBag.Erro = ex.Mensagens;
             }
-            catch(UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 ViewBag.Erro = new[] { nameof(UnauthorizedAccessException) };
             }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
@@ -21,7 +20,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
             this._veiculoRepositorio = veiculoRepositorio;
             this._aluguelRepositorio = aluguelRepositorio;
         }
-        
+
         [Authorize]
         public async Task<ActionResult> Index()
         {
@@ -48,13 +47,13 @@ namespace TesteTecnicoEL.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RealizarSimulacao(ParametrosLocacaoDto parametrosLocacao)
         {
-            
+
             try
             {
                 var resultadoSimulacao = await _aluguelRepositorio.Simular(parametrosLocacao);
                 return View("ResultadoSimulacao", resultadoSimulacao);
             }
-            catch(ValidacaoException ex)
+            catch (ValidacaoException ex)
             {
                 ViewBag.Erro = ex.Mensagens;
                 ViewBag.Veiculo = await _veiculoRepositorio.ObterPorId(parametrosLocacao.IdVeiculo);
@@ -75,7 +74,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
         {
             try
             {
-                if(ClienteAutenticado == null)
+                if (ClienteAutenticado == null)
                 {
                     ViewBag.Erro = new[] { nameof(UnauthorizedAccessException) };
                     return await RealizarSimulacao(parametrosLocacao);

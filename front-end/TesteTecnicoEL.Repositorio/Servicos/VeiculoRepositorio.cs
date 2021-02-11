@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
-using TesteTecnicoEL.AcessoDados.Extensions;
-using TesteTecnicoEL.Dominio.Usuarios;
 using TesteTecnicoEL.Dominio.Veiculos;
 
 namespace TesteTecnicoEL.AcessoDados

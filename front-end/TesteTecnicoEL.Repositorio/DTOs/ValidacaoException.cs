@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TesteTecnicoEL.AcessoDados.DTOs
 {
-    public class ValidacaoException: ApplicationException
+    public class ValidacaoException : ApplicationException
     {
         public ValidacaoException(string[] mensagens)
         {

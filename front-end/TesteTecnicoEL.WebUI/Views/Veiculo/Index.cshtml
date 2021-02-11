@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<TesteTecnicoEL.Dominio.Veiculos.Veiculo>
+@using System.Globalization;
 
 @{
     ViewData["Title"] = "Index";
@@ -10,13 +11,14 @@
 }
 
 <h1>Veículos por categoria</h1>
+<hr />
 
 @*<p>
         <a asp-action="Create">Create New</a>
     </p>*@
 
 <label onclick="alternaSomenteAtivos();">
-    @Html.CheckBox("ver-somente-disponiveis", false, new {  }) Versomente veículos disponíveis
+    @Html.CheckBox("ver-somente-disponiveis", false, new { }) Versomente veículos disponíveis
 </label>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -30,18 +32,6 @@
             </a>
         </li>
     }
-    @*<li class="nav-item">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-            aria-selected="true">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-            aria-selected="false">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-            aria-selected="false">Contact</a>
-        </li>*@
 </ul>
 
 <div class="tab-content" id="myTabContent">
@@ -50,63 +40,38 @@
     {
         var grupo = veiculosPorCategoria.ElementAt(indice);
         <div class="tab-pane fade @(indice == 0 ? "show active" : string.Empty)" id="conteudo-categoria-@indice" role="tabpanel" aria-labelledby="aba-categoria-@indice">
-            <table class="table ">
-                <thead>
-                    <tr>
-                        <th>
-                            Placa
-                        </th>
-                        <th>
-                            Modelo
-                        </th>
-                        <th>
-                            Ano
-                        </th>
-                        <th>
-                            Capacidade Porta-malas
-                        </th>
-                        <th>
-                            Valor hora
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="container container-carros">
+                <div class="row">
                     @foreach (var item in grupo)
                     {
-                        <tr class="@(item.Disponivel ? string.Empty: "indisponivel")">
-                            <td>
-                                @item.Placa
-                            </td>
-                            <td>
-                                @item.Modelo.Marca.Nome @item.Modelo.Nome
-                            </td>
-                            <td>
-                                @item.AnoFabricacao
-                            </td>
-                            <td>
-                                @item.CapacidadePortaMalaLitros
-                            </td>
-                            <td>
-                                @item.ValorHora
-                            </td>
-                            <td>
-                                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                                @if (item.Disponivel)
-                                {
-                                    @Html.ActionLink("Selecionar", "Simular", "Aluguel", new { id=item.Id })
-                                }
-                                else
-                                {
-                                    @Html.Raw("Indisponível")
-                                }
-                            </td>
-                        </tr>
+                        <div class="col-md-6 col-lg-4 @(item.Disponivel ? string.Empty: "indisponivel")">
+                            <div class="card rounded-0 card-hover-overlay card-listing">
+                                <div class="position-relative">
+                                    <img class="card-img rounded-0 listing-img" src="~/veiculos/exemplo.jpg" alt="Imagem ilustrativa">
+                                </div>
+
+                                <div class="card-footer bg-transparent">
+                                    <ul class="list-unstyled d-flex mb-0 py-2">
+                                        <li>
+                                            @item por apenas <span class="preco-aluguel-hora">@item.ValorHora.ToString("C", new CultureInfo("pt-BR").NumberFormat)</span>/hora
+                                        </li>
+                                        <li class="ml-auto">
+                                            @if (item.Disponivel)
+                                            {
+                                                @Html.ActionLink("Selecionar", "Simular", "Aluguel", new { id = item.Id })
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw("Indisponível")
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     }
 

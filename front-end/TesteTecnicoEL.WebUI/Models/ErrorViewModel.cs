@@ -1,5 +1,3 @@
-using System;
-
 namespace TesteTecnicoEL.WebUI.Models
 {
     public class ErrorViewModel

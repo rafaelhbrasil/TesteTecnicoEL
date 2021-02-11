@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TesteTecnicoEL.Dominio
+﻿namespace TesteTecnicoEL.Dominio
 {
     public class AppSettings
     {

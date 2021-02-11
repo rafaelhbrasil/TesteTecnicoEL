@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TesteTecncicoEL.Api.Models;
-using TesteTecnicoEL.AcessoDados.Extensions;
 using TesteTecnicoEL.Dominio.Locacao;
-using TesteTecnicoEL.Dominio.Usuarios;
 
 namespace TesteTecnicoEL.AcessoDados
 {

@@ -1,17 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Microsoft.Extensions.DependencyInjection;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
-using System.Text;
 using TesteTecnicoEL.Dominio.Usuarios;
 
 namespace TesteTecnicoEL.WebUI.Controllers

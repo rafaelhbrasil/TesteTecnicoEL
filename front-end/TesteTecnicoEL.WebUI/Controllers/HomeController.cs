@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using TesteTecnicoEL.WebUI.Models;
 
 namespace TesteTecnicoEL.WebUI.Controllers
@@ -20,7 +16,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(VeiculoController.Index), "Veiculo");
         }
 
         public IActionResult Privacy()

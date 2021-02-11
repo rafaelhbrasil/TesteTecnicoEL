@@ -6,11 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TesteTecnicoEL.AcessoDados;
 using TesteTecnicoEL.Dominio;
 using TesteTecnicoEL.Dominio.Usuarios;
@@ -44,7 +40,8 @@ namespace TesteTecnicoEL.WebUI
 
             Configuration.Bind("AppSettings", AppSettings.Instance);
 
-            services.AddScoped<Cliente>((sp) => {
+            services.AddScoped<Cliente>((sp) =>
+            {
                 var jsonCliente = sp.GetService<IHttpContextAccessor>().HttpContext?.User?.Claims.FirstOrDefault()?.Value;
                 if (string.IsNullOrEmpty(jsonCliente))
                     return null;

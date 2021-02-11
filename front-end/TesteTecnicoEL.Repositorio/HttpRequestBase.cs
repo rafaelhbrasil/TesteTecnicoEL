@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,7 +11,7 @@ using TesteTecnicoEL.Dominio.Usuarios;
 
 namespace TesteTecnicoEL.AcessoDados
 {
-    public class HttpRequestBase: IHttpRequest
+    public class HttpRequestBase : IHttpRequest
     {
         private readonly HttpClient _httpClient;
         private readonly Cliente _cliente;
@@ -22,9 +21,9 @@ namespace TesteTecnicoEL.AcessoDados
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(settings.CaminhoBaseApi);
             _httpClient.Timeout = TimeSpan.FromSeconds(20);
-            
+
             _cliente = cliente;
-            if(_cliente != null)
+            if (_cliente != null)
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _cliente.ChaveAutenticacao);
         }
 
