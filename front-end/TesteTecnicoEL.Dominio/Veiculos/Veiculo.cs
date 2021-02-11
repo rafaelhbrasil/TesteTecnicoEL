@@ -1,4 +1,4 @@
-﻿using System;
+﻿using TesteTecnicoEL.Dominio.Extensoes;
 
 namespace TesteTecnicoEL.Dominio.Veiculos
 {
@@ -14,7 +14,11 @@ namespace TesteTecnicoEL.Dominio.Veiculos
         public Categoria Categoria { get; set; }
         public bool Disponivel { get; set; }
 
+        public override string ToString()
+        {
+            var combustiveis = Modelo.Combustivel.ObterFlagsIndividuais();
+            return $"{Modelo.Marca.Nome} {Modelo.Nome} {AnoFabricacao} {string.Join("/", combustiveis)}";
+        }
     }
-
 
 }

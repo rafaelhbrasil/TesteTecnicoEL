@@ -14,7 +14,7 @@ namespace TesteTecnicoEL.Dominio.Veiculos
     public enum Combustivel
     {
         Gasolina = 1,
-        Alcool = 2,
+        Álcool = 2,
         Diesel = 4,
     }
 }

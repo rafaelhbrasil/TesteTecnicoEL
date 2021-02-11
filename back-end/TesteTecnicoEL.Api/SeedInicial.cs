@@ -56,12 +56,18 @@ namespace TesteTecncicoEL.Api
             _veiculoRepositorio.InserirCategoria(new Categoria("FS", "Intermediário")); // 2
             _veiculoRepositorio.InserirCategoria(new Categoria("L", "Luxo")); // 3
 
-            _veiculoRepositorio.Inserir(new Veiculo("ABC1111", 1, 2020, 15, 1, 200)); // 1
-            _veiculoRepositorio.Inserir(new Veiculo("ABC2222", 2, 2020, 15, 2, 300)); // 2
-            _veiculoRepositorio.Inserir(new Veiculo("ABC3333", 3, 2020, 15, 1, 200)); // 3
-            var veiculo4 = new Veiculo("ABC4444", 4, 2020, 15, 2, 300);
+            var veiculo4 = new Veiculo("ABC4444", 1, 2020, 15, 1, 300);
             veiculo4.MarcarComoIndisponivel();
-            _veiculoRepositorio.Inserir(veiculo4); // 4
+            _veiculoRepositorio.Inserir(veiculo4); // 1
+            _veiculoRepositorio.Inserir(new Veiculo("ABC1111", 2, 2020, 15, 2, 200)); // 2
+            _veiculoRepositorio.Inserir(new Veiculo("ABC2222", 4, 2020, 15, 3, 300)); // 3
+            _veiculoRepositorio.Inserir(new Veiculo("ABC3333", 3, 2020, 15, 1, 200)); // 4
+            _veiculoRepositorio.Inserir(new Veiculo("ABC4444", 1, 2020, 15, 1, 200)); // 5
+            _veiculoRepositorio.Inserir(new Veiculo("ABC5555", 2, 2020, 15, 1, 200)); // 6
+            _veiculoRepositorio.Inserir(new Veiculo("ABC6666", 3, 2020, 15, 1, 200)); // 7
+            _veiculoRepositorio.Inserir(new Veiculo("ABC7777", 1, 2020, 15, 1, 200)); // 8
+            _veiculoRepositorio.Inserir(new Veiculo("ABC8888", 2, 2020, 15, 2, 200)); // 9
+            
 
         }
     }
