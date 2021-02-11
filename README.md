@@ -66,7 +66,7 @@ Abra cada uma das Soluções abaixo no Visual Studio e aperte F5. Espere o naveg
 - $/back-end/TesteTecnicoEL.sln (independente)
     - Automaticamente abrirá o Swagger.
     - Configure como Startup Project o projeto **TesteTecnicoEL.Api**
-- $/front-end/TesteTecnicoEL*Front.sln
+- $/front-end/TesteTecnicoEL_Front.sln
     - Automaticamente abrirá a tela principal do *site*.
     - Configure como Startup Project o projeto **TesteTecnicoEL.WebUI**
 
