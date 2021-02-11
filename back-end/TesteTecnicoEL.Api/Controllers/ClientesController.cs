@@ -62,11 +62,11 @@ namespace TesteTecncicoEL.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Criar(ClienteDto clienteDto)
         {
-            var endereco = new Endereco(clienteDto.Endereco.Logradouro,
-                                        clienteDto.Endereco.Numero,
-                                        clienteDto.Endereco.Complemento,
-                                        clienteDto.Endereco.Cidade,
-                                        clienteDto.Endereco.Estado);
+            var endereco = new Endereco(clienteDto.Endereco?.Logradouro,
+                                        clienteDto.Endereco?.Numero,
+                                        clienteDto.Endereco?.Complemento,
+                                        clienteDto.Endereco?.Cidade,
+                                        clienteDto.Endereco?.Estado);
             var cliente = new Cliente(clienteDto.Nome,
                                       clienteDto.CPF,
                                       clienteDto.Nascimento,

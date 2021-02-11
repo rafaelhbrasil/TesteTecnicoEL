@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.Models;
 using TesteTecnicoEL.AcessoDados;
 using TesteTecnicoEL.AcessoDados.DTOs;
 
@@ -44,7 +44,6 @@ namespace TesteTecnicoEL.WebUI.Controllers
         // POST: AluguelController/Create
         [HttpPost]
         [ActionName("Simular")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RealizarSimulacao(ParametrosLocacaoDto parametrosLocacao)
         {
 
@@ -69,7 +68,6 @@ namespace TesteTecnicoEL.WebUI.Controllers
 
         // POST: AluguelController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirmar(ParametrosLocacaoDto parametrosLocacao)
         {
             try
@@ -90,25 +88,5 @@ namespace TesteTecnicoEL.WebUI.Controllers
             }
         }
 
-        // GET: AluguelController/Delete/5
-        public ActionResult Delete(long id)
-        {
-            return View();
-        }
-
-        // POST: AluguelController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(long id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

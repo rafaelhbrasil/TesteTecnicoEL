@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using TesteTecnicoEL.WebUI.Controllers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,54 +8,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-@{ 
+@{
     var usuario = ViewBag.ClienteAutenticado as TesteTecnicoEL.Dominio.Usuarios.Cliente;
 }
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Locadora TesteTecnicoEL</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Veiculo" asp-action="Index">Início</a>
-                        </li>
-                        @if (usuario == null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Criar">Cadastrar</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Aluguel" asp-action="Index">Meu Historico</a>
-                            </li>
-
-                        }
-                    </ul>
-                </div>
-                
-                <div class="menu-right">
-                    <div class="avatar">
-                        @if (usuario == null)
-                        {
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Acessar">Acessar</a>
-
-                        }
-                        else
-                        {
-                            @usuario.Nome
-                            <a class="text-dark" asp-area="" asp-controller="Cliente" asp-action="Sair">(Sair)</a>
-                        }
-
-                    </div>
-                </div>
+            <div class="container" id="container-dados-usuario-header">
+                <partial name="_HeaderDadosUsuario" model="usuario" />
             </div>
         </nav>
     </header>
@@ -62,6 +23,150 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="frm-login-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titulo-modal-acesso">Acesso</h5>
+                    <h5 class="modal-title" id="titulo-modal-cadastro" hidden>Cadastro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*<partial name="_LoginForm" model="null" />*@
+                    <div id="div-frm-login" class="">
+                        @*<div class="bg-primary text-center py-4">
+                <h2 class="text-white mb-0 h4">Acesse sua conta</h2>
+            </div>*@
+                        <div class="card-body px-7 pt-7 pb-0" id="formSignInContainer">
+                            @*<form method="post">
+                                <div class="form-group">
+                                    <label asp-for="CPF" class="control-label"></label>
+                                    <input asp-for="CPF" class="form-control" />
+                                    <span asp-validation-for="CPF" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Senha" class="control-label"></label>
+                                    <input asp-for="Senha" class="form-control" type="password" />
+                                    <span asp-validation-for="Senha" class="text-danger"></span>
+                                </div>
+                                <div class="form-group d-flex justify-content-between align-items-center mb-7">
+                                    <button id="btn-signin" type="button" class="btn btn-outline-primary text-uppercase" onclick="SubmeterAcesso(); return false">
+                                        Entrar
+                                    </button>
+                                    <a href="#" class="text-forgot-password" onclick="recoverPassword(); return false">Esqueceu sua senha?</a>
+                                </div>
+                            </form>*@
+                            <partial name="_FormAcesso" model="null" />
+
+                        </div>
+                        <div class="card-footer bg-transparent text-center py-3">
+                            <p class="mb-0">Não tem uma conta? <a href="#" class="link" onclick="AlternarFormAcessoCadastro('div-frm-signup');">Cadastre-se</a></p>
+                        </div>
+                    </div>
+                    <div id="div-frm-signup" class="" style="display:none;">
+                        @*<div class="bg-primary text-center py-4">
+                <h2 class="text-white mb-0 h4">Cadastro</h2>
+            </div>*@
+                        <div class="card-body px-7 pt-7 pb-0" id="formSignUpContainer">
+                            @*<form method="post">
+                                @Html.HiddenFor(m => m.Id)
+                                <div class="text-danger">
+                                    @if (ViewBag.Erro != null)
+                                    {
+                                        @Html.Raw(string.Join("<br />", ViewBag.Erro as string[]));
+                                    }
+                                </div>
+                                <h4>
+                                    Dados pessoais
+                                </h4>
+                                <div class="form-group">
+                                    <label asp-for="Nome" class="control-label"></label>
+                                    <input asp-for="Nome" class="form-control" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPF" class="control-label"></label>
+                                    <input asp-for="CPF" class="form-control" />
+                                    <span asp-validation-for="CPF" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Nascimento" class="control-label"></label>
+                                    <input asp-for="Nascimento" class="form-control" type="date" />
+                                    <span asp-validation-for="Nascimento" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Senha" class="control-label"></label>
+                                    <input asp-for="Senha" class="form-control" type="password" />
+                                    <span asp-validation-for="Senha" class="text-danger"></span>
+                                </div>
+                                <h4>
+                                    Endereço
+                                </h4>
+                                <div class="form-group">
+                                    <label asp-for="Endereco.Logradouro" class="control-label"></label>
+                                    <input asp-for="Endereco.Logradouro" class="form-control" />
+                                    <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Endereco.Numero" class="control-label"></label>
+                                    <input asp-for="Endereco.Numero" class="form-control" placeholder="Vazio para sem número" />
+                                    <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Endereco.Complemento" class="control-label"></label> (opcional)
+                                    <input asp-for="Endereco.Complemento" class="form-control" />
+                                    <span asp-validation-for="Endereco.Complemento" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Endereco.Cidade" class="control-label"></label>
+                                    <input asp-for="Endereco.Cidade" class="form-control" />
+                                    <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Endereco.Estado" class="control-label"></label>
+                                    <input asp-for="Endereco.Estado" class="form-control" />
+                                    <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
+                                </div>
+                            </form>*@
+                            <partial name="_FormCadastro" model="null" />
+
+                        </div>
+                        <div class="card-footer bg-transparent text-center py-3">
+                            <p class="mb-0">Já tem uma conta? <a href="#" class="link" onclick="AlternarFormAcessoCadastro('div-frm-login');">Acesse</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="fechar-modal-cadastro">Close</button>
+                    <button type="button" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -72,6 +177,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        var URL_VEICULO_SELECIONADO = "@Url.Action(nameof(AluguelController.Simular), "Aluguel")";
+        var URL_ACESSO = "@Url.Action(nameof(ClienteController.Acessar), "Cliente")";
+        var URL_CADASTRO = "@Url.Action(nameof(ClienteController.Criar), "Cliente")";
+        var URL_LOGIN_HEADER = "@Url.Action(nameof(ClienteController.CarregarHeaderUsuario), "Cliente")";
+    </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

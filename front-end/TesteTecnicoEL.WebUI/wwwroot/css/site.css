@@ -82,3 +82,10 @@ body {
 .card {
     margin-bottom: 20px;
 }
+
+.login_form.modal {
+    border-radius: 0;
+    line-height: 18px;
+    padding: 0;
+    font-family: "Lucida Grande", Verdana, sans-serif;
+}

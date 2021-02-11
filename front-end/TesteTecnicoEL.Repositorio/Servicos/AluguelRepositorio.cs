@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.Models;
 using TesteTecnicoEL.Dominio.Locacao;
 
 namespace TesteTecnicoEL.AcessoDados

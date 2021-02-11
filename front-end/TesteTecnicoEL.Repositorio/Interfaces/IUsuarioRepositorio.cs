@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.Models;
 using TesteTecnicoEL.Dominio.Usuarios;
 
 namespace TesteTecnicoEL.AcessoDados

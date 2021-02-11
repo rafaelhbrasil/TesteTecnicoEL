@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.Models;
 using TesteTecnicoEL.AcessoDados;
 using TesteTecnicoEL.AcessoDados.DTOs;
 using TesteTecnicoEL.Dominio.Usuarios;
@@ -20,18 +20,6 @@ namespace TesteTecnicoEL.WebUI.Controllers
             _usuarioRepositorio = usuarioRepositorio;
         }
 
-        // GET: UsuarioController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: UsuarioController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: UsuarioController/Create
         public ActionResult Criar()
         {
@@ -43,9 +31,13 @@ namespace TesteTecnicoEL.WebUI.Controllers
             return View();
         }
 
+        public ActionResult CarregarHeaderUsuario()
+        {
+            return PartialView("_HeaderDadosUsuario", ClienteAutenticado);
+        }
+
         // POST: UsuarioController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Acessar(string cpf, string senha)
         {
             try
@@ -57,7 +49,7 @@ namespace TesteTecnicoEL.WebUI.Controllers
                         await SalvarCookieDeAutenticacao(usuario as Cliente);
                     else
                         throw new NotImplementedException("Autenticação de Operador não está no escopo do teste.");
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    return NoContent();
                 }
             }
             catch (ValidacaoException ex)
@@ -68,30 +60,29 @@ namespace TesteTecnicoEL.WebUI.Controllers
             {
                 ViewBag.Erro = new[] { nameof(UnauthorizedAccessException) };
             }
-            catch
-            {
-            }
-            return View();
+            return PartialView("_FormAcesso", new ClienteDto{ CPF = cpf, Senha = senha});
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Criar(ClienteDto cliente)
         {
             try
             {
-                var usuario = await _usuarioRepositorio.CadastrarCliente(cliente);
-                if (usuario != null)
+                if (ModelState.IsValid)
                 {
-                    await SalvarCookieDeAutenticacao(usuario);
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    var usuario = await _usuarioRepositorio.CadastrarCliente(cliente);
+                    if (usuario != null)
+                    {
+                        await SalvarCookieDeAutenticacao(usuario);
+                        return NoContent();
+                    }
                 }
             }
             catch (ValidacaoException ex)
             {
                 ViewBag.Erro = ex.Mensagens;
             }
-            return View();
+            return PartialView("_FormCadastro", cliente);
         }
 
         [Authorize]
@@ -101,46 +92,5 @@ namespace TesteTecnicoEL.WebUI.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        // GET: UsuarioController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuarioController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UsuarioController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuarioController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

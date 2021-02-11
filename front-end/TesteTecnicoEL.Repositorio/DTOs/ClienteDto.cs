@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TesteTecncicoEL.Api.Models
+namespace TesteTecnicoEL.Api.Models
 {
     public class ClienteDto
     {
@@ -11,6 +11,7 @@ namespace TesteTecncicoEL.Api.Models
         [Required]
         public string CPF { get; set; }
         public DateTime Nascimento { get; set; }
+        [Required]
         public EnderecoDto Endereco { get; set; }
         [Required]
         public string Senha { get; set; }

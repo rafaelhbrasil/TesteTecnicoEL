@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TesteTecncicoEL.Api.Models
+namespace TesteTecnicoEL.Api.Models
 {
     public class EnderecoDto
     {

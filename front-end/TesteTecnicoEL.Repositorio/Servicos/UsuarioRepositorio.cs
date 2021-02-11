@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
-using TesteTecncicoEL.Api.Models;
+using TesteTecnicoEL.Api.Models;
 using TesteTecnicoEL.AcessoDados.Extensions;
 using TesteTecnicoEL.Dominio.Usuarios;
 

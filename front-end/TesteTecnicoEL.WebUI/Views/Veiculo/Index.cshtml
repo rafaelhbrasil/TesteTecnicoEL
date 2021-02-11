@@ -2,7 +2,7 @@
 @using System.Globalization;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Nossa frota";
 }
 
 @{
@@ -10,7 +10,7 @@
     var veiculosPorCategoria = veiculos.GroupBy(v => v.IdCategoria);
 }
 
-<h1>Veículos por categoria</h1>
+<h1>@ViewData["Title"]</h1>
 <hr />
 
 @*<p>
@@ -18,7 +18,7 @@
     </p>*@
 
 <label onclick="alternaSomenteAtivos();">
-    @Html.CheckBox("ver-somente-disponiveis", false, new { }) Versomente veículos disponíveis
+    @Html.CheckBox("ver-somente-disponiveis", false, new { }) Ver somente veículos disponíveis
 </label>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">

@@ -1,6 +1,6 @@
 ﻿using TesteTecnicoEL.Dominio.Veiculos;
 
-namespace TesteTecncicoEL.Api.Models
+namespace TesteTecnicoEL.Api.Models
 {
     public class ModeloDto
     {

@@ -37,7 +37,7 @@ namespace TesteTecnicoEL.Dominio.Extensoes
 
         private static IEnumerable<Enum> ObterValoresDosFlags(Type tipo)
         {
-            var flag = 0x1;
+            ulong flag = 0x1;
             foreach (var valor in Enum.GetValues(tipo).Cast<Enum>())
             {
                 var bits = Convert.ToUInt64(valor);
