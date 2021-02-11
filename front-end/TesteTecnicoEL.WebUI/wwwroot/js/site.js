@@ -75,7 +75,7 @@ function recoverPassword() {
 }
 
 function RecarregarDadosUsuarioHeader() {
-    $("#fechar-modal-cadastro").click();
+    $("#fechar-modal").click();
     $.get(URL_LOGIN_HEADER)
         .done(function (data) {
             $("#container-dados-usuario-header").html(data);
