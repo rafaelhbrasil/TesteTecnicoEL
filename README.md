@@ -3,20 +3,20 @@
 # TesteTecnicoEL
 
 Este projeto é um exemplo de API desenvolvida para uma locadora de veículos fictícia.
-Não deve ser utilizada em ambiente produtivo por possuir somente dados "_mockados_".
+Não deve ser utilizada em ambiente produtivo por possuir somente dados "*mockados*".
 
 ## Sobre o projeto
 
-A locadora deve ter um _back-end_ e um _front-end_, ambos com livre escolha da arquitetura.
+A locadora deve ter um *back-end* e um *front-end*, ambos com livre escolha da arquitetura.
 
-O _back-end_ deve possuir as funcionalidades:
+O *back-end* deve possuir as funcionalidades:
 - Cadastro de usuários com perfil CLIENTE ou OPERADOR
 - Autenticação do usuário com seleção automática de usuário autenticado pelo CPF ou pela matrícula no momento da autenticação
 - Cadastro de marcas e modelos de veículos
 - Possibilidade de simular e realizar uma locação de veículo
 - Devolução do veículo com checklist de devolução
 
-O _front-end_ deve possuir as funcionalidades:
+O *front-end* deve possuir as funcionalidades:
 - Cadastro e autenticação de usuário com perfil CLIENTE
 - Listagem de veículos disponíveis organizados por categoria
 - Possibilidade de simular e confirmar uma locação de veículo
@@ -52,7 +52,7 @@ O uso da biblioteca JQuery 3.5.1 complementa o JavaScript da tela pela facilidad
 
 ## Execução o projeto
 
-A execução é simples de rápida. Basta abrir o Visual Studio com cada uma das Soluções e executar ambas em qualquer ordem. O _front-end_ depende de o _back-end_ estar em execução para funcionar. Este, por sua vez, é independe.
+A execução é simples de rápida. Basta abrir o Visual Studio com cada uma das Soluções e executar ambas em qualquer ordem. O *front-end* depende de o *back-end* estar em execução para funcionar. Este, por sua vez, é independe.
 
 ### Requisitos para executar
 
@@ -63,6 +63,10 @@ A execução é simples de rápida. Basta abrir o Visual Studio com cada uma das
 
 Abra cada uma das Soluções abaixo no Visual Studio e aperte F5. Espere o navegador da web padrão abrir automaticamente.
 
-- $/back-end/TesteTecnicoEL.sln (independente): automaticamente abrirá o Swagger.
-- $/front-end/TesteTecnicoEL_Front.sln: automaticamente abrirá a tela principal do _site_.
+- $/back-end/TesteTecnicoEL.sln (independente)
+    - Automaticamente abrirá o Swagger.
+    - Configure como Startup Project o projeto **TesteTecnicoEL.Api**
+- $/front-end/TesteTecnicoEL*Front.sln
+    - Automaticamente abrirá a tela principal do *site*.
+    - Configure como Startup Project o projeto **TesteTecnicoEL.WebUI**
 
