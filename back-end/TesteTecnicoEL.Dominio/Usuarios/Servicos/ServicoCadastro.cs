@@ -3,7 +3,7 @@ using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
 
 namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
 {
-    public class ServicoCadastro
+    public class ServicoCadastro: IServicoCadastro
     {
         private readonly IClienteRepositorio _clienteRepositorio;
         private readonly IOperadorRepositorio _operadorRepositorio;

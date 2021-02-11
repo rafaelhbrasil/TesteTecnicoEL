@@ -5,7 +5,7 @@ using TesteTecnicoEL.Dominio.Veiculos.Repositorios;
 
 namespace TesteTecnicoEL.Dominio.Locacao.Servicos
 {
-    public class ServicoAluguel
+    public class ServicoAluguel: IServicoAluguel
     {
         private readonly IAluguelRepositorio _aluguelRepositorio;
         private readonly IVeiculoRepositorio _veiculoRepositorio;
@@ -32,6 +32,7 @@ namespace TesteTecnicoEL.Dominio.Locacao.Servicos
             await _aluguelRepositorio.Inserir(aluguel);
             return aluguel;
         }
+
         public async Task<Aluguel> RealizarDevolucao(long idAluguel, ChecklistDevolucao checklistDevolucao)
         {
             var aluguel = await _aluguelRepositorio.ObterPorId(idAluguel);

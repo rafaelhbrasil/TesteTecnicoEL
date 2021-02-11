@@ -6,7 +6,7 @@ using TesteTecnicoEL.Dominio.Usuarios.Repositorios;
 
 namespace TesteTecnicoEL.Dominio.Usuarios.Servicos
 {
-    public class ServicoAutenticacao
+    public class ServicoAutenticacao: IServicoAutenticacao
     {
         private readonly IClienteRepositorio _clienteRepositorio;
         private readonly IOperadorRepositorio _operadorRepositorio;

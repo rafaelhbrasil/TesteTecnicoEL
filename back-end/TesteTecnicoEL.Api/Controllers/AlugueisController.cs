@@ -18,9 +18,9 @@ namespace TesteTecncicoEL.Api.Controllers
     {
         private readonly UserIdentity _usuarioAutenticado;
         private readonly IAluguelRepositorio _aluguelRepositorio;
-        private readonly ServicoAluguel _servicoAluguel;
+        private readonly IServicoAluguel _servicoAluguel;
 
-        public AlugueisController(UserIdentity usuario, IAluguelRepositorio aluguelRepositorio, ServicoAluguel servicoAluguel)
+        public AlugueisController(UserIdentity usuario, IAluguelRepositorio aluguelRepositorio, IServicoAluguel servicoAluguel)
         {
             _usuarioAutenticado = usuario;
             _aluguelRepositorio = aluguelRepositorio;
@@ -37,7 +37,7 @@ namespace TesteTecncicoEL.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = null)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Marca>> ObterPorId(long id)
+        public async Task<ActionResult<Aluguel>> ObterPorId(long id)
         {
             var aluguel = await _aluguelRepositorio.ObterPorId(id);
             if (aluguel == null)
@@ -56,7 +56,7 @@ namespace TesteTecncicoEL.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
         [HttpGet("usuario")]
         [RotaAutenticada]
-        public async Task<ActionResult<Marca>> ListarDoUsuario()
+        public async Task<ActionResult<Aluguel>> ListarDoUsuario()
         {
             var alugueis = await _aluguelRepositorio.ListarPorUsuario(_usuarioAutenticado.Cliente.Id);
             return Ok(alugueis);
@@ -72,7 +72,7 @@ namespace TesteTecncicoEL.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
         [HttpPost("simular")]
-        public async Task<ActionResult> Simular(ParametrosLocacaoDto aluguelDto)
+        public async Task<ActionResult<Simulacao>> Simular(ParametrosLocacaoDto aluguelDto)
         {
             var aluguel = new Simulacao(aluguelDto.DataInicio,
                                       aluguelDto.DataFim,
@@ -96,7 +96,7 @@ namespace TesteTecncicoEL.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
         [HttpPost]
         [RotaAutenticada]
-        public async Task<ActionResult> Criar(ParametrosLocacaoDto aluguelDto)
+        public async Task<ActionResult<Aluguel>> Criar(ParametrosLocacaoDto aluguelDto)
         {
             var aluguel = new Aluguel(aluguelDto.DataInicio,
                                       aluguelDto.DataFim,
@@ -113,12 +113,12 @@ namespace TesteTecncicoEL.Api.Controllers
         /// <param name="id">O ID do aluguel a ser encerrado</param>
         /// <param name="devolucaoDto">Os dados do aluguel a ser encerrado, incluindo checklist de devolução</param>
         /// <returns>O aluguel atualizado com os dados da devolução</returns>
-        /// <response code="201">Devolução realuzada com sucesso</response>
+        /// <response code="200">Devolução realuzada com sucesso</response>
         /// <response code="400">Dados inválidos. Nada foi feito.</response>
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
         [HttpPost("devolucao/{id}")]
-        public async Task<ActionResult> Devolver(long id, ParametrosDevolucaoDto devolucaoDto)
+        public async Task<ActionResult<Aluguel>> Devolver(long id, ParametrosDevolucaoDto devolucaoDto)
         {
             var checklist = new ChecklistDevolucao(devolucaoDto.CarroLimpo,
                                                    devolucaoDto.TanqueCheio,

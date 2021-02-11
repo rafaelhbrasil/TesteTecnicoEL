@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TesteTecnicoEL.Api\TesteTecnicoEL.Api.csproj" />
     <ProjectReference Include="..\TesteTecnicoEL.Dominio\TesteTecnicoEL.Dominio.csproj" />
   </ItemGroup>
 

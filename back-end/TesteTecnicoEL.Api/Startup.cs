@@ -82,9 +82,9 @@ namespace TesteTecncicoEL.Api
             services.AddScoped<IVeiculoRepositorio, VeiculoRepositorio>();
             services.AddScoped<IAluguelRepositorio, AluguelRepositorio>();
 
-            services.AddScoped<ServicoAutenticacao>();
-            services.AddScoped<ServicoCadastro>();
-            services.AddScoped<ServicoAluguel>();
+            services.AddScoped<IServicoAutenticacao, ServicoAutenticacao>();
+            services.AddScoped<IServicoCadastro, ServicoCadastro>();
+            services.AddScoped<IServicoAluguel, ServicoAluguel>();
 
             // seed inicial para adicionar algo no repositório em memória
             services.AddScoped<SeedInicial>();

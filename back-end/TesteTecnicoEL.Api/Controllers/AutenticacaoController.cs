@@ -13,11 +13,11 @@ namespace TesteTecncicoEL.Api.Controllers
     {
         private readonly IClienteRepositorio _clienteRepositorio;
         private readonly IOperadorRepositorio _operadorRepositorio;
-        private readonly ServicoAutenticacao _servicoAutenticacao;
+        private readonly IServicoAutenticacao _servicoAutenticacao;
 
         public AutenticacaoController(IClienteRepositorio clienteRepositorio,
             IOperadorRepositorio operadorRepositorio,
-            ServicoAutenticacao servicoAutenticacao)
+            IServicoAutenticacao servicoAutenticacao)
         {
             this._clienteRepositorio = clienteRepositorio;
             this._operadorRepositorio = operadorRepositorio;
@@ -32,10 +32,10 @@ namespace TesteTecncicoEL.Api.Controllers
         /// <returns>Dados do usuário autenticado</returns>
         /// <response code="200">Usuário autenticado com sucesso</response>
         /// <response code="401">Usuário ou senha inválidos ou usuário inexistente</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Cliente))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
         [HttpGet("autenticar")]
-        public async Task<ActionResult<Cliente>> Autenticar(string login, string senha)
+        public async Task<ActionResult> Autenticar(string login, string senha)
         {
             var usuario = await _servicoAutenticacao.Autenticar(login, senha);
             if (usuario == null)

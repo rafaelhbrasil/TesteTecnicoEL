@@ -16,9 +16,9 @@ namespace TesteTecncicoEL.Api.Controllers
     {
         private readonly UserIdentity _usuarioAutenticado;
         private readonly IOperadorRepositorio _operadorRepositorio;
-        private readonly ServicoCadastro _servicoCadastro;
+        private readonly IServicoCadastro _servicoCadastro;
 
-        public OperadoresController(UserIdentity usuario, IOperadorRepositorio operadorRepositorio, ServicoCadastro servicoCadastro)
+        public OperadoresController(UserIdentity usuario, IOperadorRepositorio operadorRepositorio, IServicoCadastro servicoCadastro)
         {
             _usuarioAutenticado = usuario;
             _operadorRepositorio = operadorRepositorio;

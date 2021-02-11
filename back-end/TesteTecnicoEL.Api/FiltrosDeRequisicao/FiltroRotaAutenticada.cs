@@ -23,7 +23,7 @@ namespace TesteTecncicoEL.Api.FiltrosDeRequisicao
                 }
 
                 var chaveAutenticacao = authHeader.First().Split(' ')[1];
-                var servicoUsuario = context.HttpContext.RequestServices.GetService(typeof(ServicoAutenticacao)) as ServicoAutenticacao;
+                var servicoUsuario = context.HttpContext.RequestServices.GetService(typeof(IServicoAutenticacao)) as IServicoAutenticacao;
                 var usuario = await servicoUsuario.ObterPorChave(chaveAutenticacao);
                 if (usuario == null)
                 {

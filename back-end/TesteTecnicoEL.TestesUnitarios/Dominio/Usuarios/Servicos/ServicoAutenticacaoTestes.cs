@@ -17,6 +17,7 @@ namespace TesteTecnicoEL.TestesUnitarios.Dominio.Usuarios.Servicos
         {
             _clienteRepositorio = new Mock<IClienteRepositorio>();
             _operadorRepositorio = new Mock<IOperadorRepositorio>();
+            ServicoAutenticacao.CalcularSHA256("");
         }
 
         [Fact]
